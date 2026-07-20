@@ -1,0 +1,13 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:\\Users\\hagam\\AppData\\Local\\Temp\\claude\\C--Workspace-Site-Brasil-Baterias\\3ee0c908-0885-4aeb-83df-508bec0bfd0a\\scratchpad\\static-server.js"
+      ],
+      "port": 4321
+    }
+  ]
+}
