@@ -19,20 +19,8 @@ const endBoot = () => {
   playHeroIntro();
 };
 
-if (reduceMotion || sessionStorage.getItem('booted')) {
-  endBoot();
-} else {
-  sessionStorage.setItem('booted', '1');
-  let pct = 0;
-  const step = () => {
-    pct = Math.min(pct + 6 + Math.random() * 10, 100);
-    bootFill.style.width = `${pct}%`;
-    bootPct.textContent = `${Math.round(pct)}%`;
-    if (pct < 100) setTimeout(step, 55);
-    else setTimeout(endBoot, 220);
-  };
-  step();
-}
+// a execução do boot fica no fim do arquivo: quando ela é síncrona
+// (já booted, ou reduced-motion) precisa das consts abaixo já inicializadas
 
 /* ---------- hero: título por caractere (WAAPI) ---------- */
 const heroTitle = document.getElementById('heroTitle');
@@ -294,3 +282,19 @@ setInterval(tickClock, 15000);
 
 /* ---------- ano ---------- */
 document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ---------- dispara o boot (por último: endBoot depende de tudo acima) ---------- */
+if (reduceMotion || sessionStorage.getItem('booted')) {
+  endBoot();
+} else {
+  sessionStorage.setItem('booted', '1');
+  let pct = 0;
+  const step = () => {
+    pct = Math.min(pct + 6 + Math.random() * 10, 100);
+    bootFill.style.width = `${pct}%`;
+    bootPct.textContent = `${Math.round(pct)}%`;
+    if (pct < 100) setTimeout(step, 55);
+    else setTimeout(endBoot, 220);
+  };
+  step();
+}
