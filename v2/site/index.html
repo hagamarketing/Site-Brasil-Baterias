@@ -86,6 +86,9 @@ button,input,select,textarea{font:inherit;color:inherit}
 .steps li span{font-family:var(--f-display);font-weight:800;font-size:.95rem}
 .steps li.on{color:var(--ink);border-bottom-color:var(--volt)}
 .steps li.done{color:var(--brand-ink)}
+.steps li.nav{cursor:pointer}
+.steps li.nav:hover{background:color-mix(in srgb,var(--brand-ink) 8%,transparent)}
+.steps li.nav:focus-visible{outline-offset:-3px}
 .panel{padding:clamp(18px,3vw,28px);display:grid;gap:18px}
 .panel h2{font-size:1.7rem}
 .panel .sub{color:var(--muted);font-size:.95rem;margin-top:-10px}
@@ -472,21 +475,39 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
   var ahBat = function(code, spec){ var m = /^Z(\d+)/.exec(code); return m ? m[1] : spec[0]; };
 
   var V = D.v.map(function(v){ return {v:v, s:norm(v[1] + ' ' + v[2])}; });
-  var st = {tipo:'c', veh:null, bat:null, step:1};
+  var st = {tipo:'c', veh:null, bat:null, step:1, reached:1};
 
   /* ===== Passos ===== */
   function go(n){
-    st.step = n;
+    st.step = n; if (n > st.reached) st.reached = n;
     for (var i=1;i<=4;i++) $('p'+i).hidden = i !== n;
     document.querySelectorAll('#steps li').forEach(function(li){
-      var s = +li.dataset.s; li.className = s === n ? 'on' : (s < n ? 'done' : '');
+      var s = +li.dataset.s; li.className = s === n ? 'on' : (s <= st.reached ? 'done' : '');
       if (s === n) li.setAttribute('aria-current','step'); else li.removeAttribute('aria-current');
+      /* etapas já preenchidas viram botões de navegação */
+      var nav = s !== n && s <= st.reached;
+      li.classList.toggle('nav', nav);
+      if (nav){ li.setAttribute('role','button'); li.tabIndex = 0; }
+      else { li.removeAttribute('role'); li.removeAttribute('tabindex'); }
     });
     var box = $('pedido'), r = box.getBoundingClientRect();
     if (r.top < 0 || r.top > window.innerHeight * .6) box.scrollIntoView({behavior:'smooth', block:'start'});
   }
   document.addEventListener('click', function(e){
     var b = e.target.closest('[data-go]'); if (b) go(+b.dataset.go);
+  });
+  /* Clique (ou Enter/Espaço) numa etapa já preenchida do topo do cartão */
+  function irEtapa(li){
+    if (!li || !li.classList.contains('nav')) return;
+    var n = +li.dataset.s;
+    if (n === 4){ if (!validate()) { go(3); validate(); return; } buildSummary(); }
+    go(n);
+  }
+  $('steps').addEventListener('click', function(e){ irEtapa(e.target.closest('li')); });
+  $('steps').addEventListener('keydown', function(e){
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var li = e.target.closest('li'); if (!li || !li.classList.contains('nav')) return;
+    e.preventDefault(); irEtapa(li);
   });
 
   /* ===== Passo 1: veículo ===== */
@@ -537,7 +558,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
 
   /* ===== Passo 2: bateria ===== */
   function pickVehicle(v){
-    st.veh = v; st.bat = v[5];
+    st.veh = v; st.bat = v[5]; st.reached = 1;
     $('v-nome').textContent = v[1] + ' ' + v[2];
     $('v-anos').textContent = 'Ano ' + anos(v);
     var spec = D.b[v[5]] || [];
