@@ -254,15 +254,15 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
           <div>
             <h2>Qual é o seu carro?</h2>
           </div>
-          <p class="sub">Busque pelo modelo ou escolha a montadora.</p>
+          <p class="sub">Digite o modelo do carro ou escolha a montadora.</p>
           <div class="row2">
-            <div class="field">
-              <label for="marca">Montadora</label>
-              <select id="marca"></select>
-            </div>
             <div class="field">
               <label for="busca">Modelo ou ano</label>
               <input id="busca" type="search" placeholder="Ex.: Onix 2019" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="marca">Montadora</label>
+              <select id="marca"></select>
             </div>
           </div>
           <p class="hint tnum" id="contagem"></p>
@@ -536,7 +536,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
     $('contagem').textContent = !marca && !q ? '' : out.length === 0 ? '' :
       out.length === 1 ? '1 veículo encontrado' : out.length + ' veículos encontrados' + (out.length > LIM ? '. Refine a busca para ver todos.' : '');
     if (!marca && !q){
-      $('resultados').innerHTML = '<li class="empty">Escolha a montadora ou digite o modelo. Temos ' + V.filter(function(x){return x.v[0]===st.tipo;}).length.toLocaleString('pt-BR') + ' carros cadastrados.</li>';
+      $('resultados').innerHTML = '<li class="empty">Digite o modelo ou escolha a montadora. Temos ' + V.filter(function(x){return x.v[0]===st.tipo;}).length.toLocaleString('pt-BR') + ' carros cadastrados.</li>';
       return;
     }
     if (!out.length){
