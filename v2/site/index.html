@@ -552,7 +552,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
       var z = marcaBat(o.code) === 'Zetta', p = PRECOS[o.code];
       var specs = o.main ?
         '<dl class="specs"><div><dt>Capacidade</dt><dd>' + spec[0] + ' Ah</dd></div><div><dt>Partida (CCA)</dt><dd>' + spec[1] + ' A</dd></div><div><dt>Tecnologia</dt><dd>' + esc(cap(spec[6]||'')) + '</dd></div><div><dt>Garantia</dt><dd>' + spec[7] + ' meses</dd></div><div><dt>Medidas (mm)</dt><dd>' + spec[2] + '×' + spec[3] + '×' + spec[4] + '</dd></div><div><dt>Peso</dt><dd>' + String(spec[5]).replace('.',',') + ' kg</dd></div></dl>'
-        : '<dl class="specs"><div><dt>Capacidade</dt><dd>' + spec[0] + ' Ah</dd></div><div><dt>Fabricante</dt><dd>Grupo Moura</dd></div><div><dt>Garantia</dt><dd>Confirmada no atendimento</dd></div></dl>';
+        : '<dl class="specs"><div><dt>Capacidade</dt><dd>' + spec[0] + ' Ah</dd></div><div><dt>Fabricante</dt><dd>Grupo Moura</dd></div><div><dt>Garantia</dt><dd>18 meses</dd></div></dl>';
       return '<label class="bat"><input type="radio" name="bat" value="' + esc(o.code) + '"' + (o.code === st.bat ? ' checked' : '') + '>' +
         '<img class="bat-img" src="imagens/' + (z ? 'zetta' : 'moura') + '.webp" width="96" height="74" loading="lazy" decoding="async" alt="Bateria ' + marcaBat(o.code) + ' ' + esc(o.code) + '">' +
         '<div style="min-width:0"><div class="bat-head"><h3>' + marcaBat(o.code) + ' ' + esc(o.code) + '</h3><span class="tag' + (o.main ? '' : ' alt') + '">' + (o.main ? 'Indicada' : 'Opção econômica') + '</span></div>' +
@@ -663,7 +663,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
   var pedidoId = '';
   function linhas(){
     var v = st.veh, spec = D.b[v[5]] || [], code = st.bat, main = code === v[5];
-    var batTxt = marcaBat(code) + ' ' + code + ' · ' + spec[0] + ' Ah' + (main ? ' · ' + spec[7] + ' meses de garantia' : '') + (PRECOS[code] ? ' · ' + brl(PRECOS[code]) : '');
+    var batTxt = marcaBat(code) + ' ' + code + ' · ' + spec[0] + ' Ah' + (main ? ' · ' + spec[7] + ' meses de garantia' : ' · 18 meses de garantia') + (PRECOS[code] ? ' · ' + brl(PRECOS[code]) : '');
     var entrega = val('modo') === 'entrega';
     var quando = val('quando') === 'agendar' ? $('data').value.split('-').reverse().join('/') + ', ' + $('periodo').value : 'O quanto antes';
     var pag = val('pag') + (val('pag') === 'Dinheiro' && $('troco').value.trim() ? ' (troco para ' + $('troco').value.trim() + ')' : '');
