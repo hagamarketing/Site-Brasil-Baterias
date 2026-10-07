@@ -758,9 +758,11 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
   /* ===== Rascunho dos dados do cliente (só neste navegador) ===== */
   var DRAFT = ['nome','fone','rua','num','bairro','cidade','cep','ref'];
   function saveDraft(){
-    try { var o = {}; DRAFT.forEach(function(k){ o[k] = $(k).value; }); localStorage.setItem('bb-cliente', JSON.stringify(o)); } catch(e){}
+    try { var o = {}; DRAFT.forEach(function(k){ o[k] = $(k).value; }); sessionStorage.setItem('bb-cliente', JSON.stringify(o)); } catch(e){}
   }
-  try { var saved = JSON.parse(localStorage.getItem('bb-cliente') || 'null'); if (saved) { DRAFT.forEach(function(k){ if (saved[k]) $(k).value = saved[k]; }); if (saved.rua) mostrarEndereco(); } } catch(e){}
+  /* dados ficam só enquanto a aba está aberta; ao fechar o site, somem (e apaga o que versões antigas guardaram) */
+  try { localStorage.removeItem('bb-cliente'); } catch(e){}
+  try { var saved = JSON.parse(sessionStorage.getItem('bb-cliente') || 'null'); if (saved) { DRAFT.forEach(function(k){ if (saved[k]) $(k).value = saved[k]; }); if (saved.rua) mostrarEndereco(); } } catch(e){}
 
   search();
   $('p1').hidden = false; document.querySelector('#steps li').className = 'on';
