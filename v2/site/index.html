@@ -122,6 +122,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .bat:has(input:checked){border-color:var(--brand-ink);background:color-mix(in srgb,var(--brand-ink) 6%,var(--surface))}
 .bat input{position:absolute;opacity:0;pointer-events:none}
 .bat:has(input:focus-visible){outline:3px solid var(--volt);outline-offset:2px}
+.bat-img{display:block;width:96px;height:auto;aspect-ratio:768/595;object-fit:contain;border-radius:8px}
 .cell{width:62px;height:70px;border-radius:8px;background:var(--brand-deep);position:relative;display:grid;place-items:center;color:var(--on-brand);font-family:var(--f-display);font-weight:900;font-size:1.25rem;font-stretch:80%}
 .cell.z{background:#2A2F3A}
 .cell::before,.cell::after{content:"";position:absolute;top:-7px;width:12px;height:7px;border-radius:2px 2px 0 0;background:var(--volt)}
@@ -235,12 +236,6 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
         <p class="eyebrow">A melhor loja de Marília desde 1980</p>
         <h1>A bateria do seu veículo <em>entregue e instalada</em> em até 50 minutos</h1>
         <p class="hero-lead">Informe seu carro, veja a bateria indicada e envie o pedido pelo WhatsApp. Você paga só na entrega.</p>
-        <ul class="chips">
-          <li>Até 24 meses de garantia</li>
-          <li>Entrega e instalação grátis em Marília</li>
-          <li>Teste gratuito da bateria</li>
-          <li>Pix, cartão ou dinheiro</li>
-        </ul>
       </div>
 
       <div class="order" id="pedido" aria-live="polite">
@@ -559,7 +554,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
         '<dl class="specs"><div><dt>Capacidade</dt><dd>' + spec[0] + ' Ah</dd></div><div><dt>Partida (CCA)</dt><dd>' + spec[1] + ' A</dd></div><div><dt>Tecnologia</dt><dd>' + esc(cap(spec[6]||'')) + '</dd></div><div><dt>Garantia</dt><dd>' + spec[7] + ' meses</dd></div><div><dt>Medidas (mm)</dt><dd>' + spec[2] + '×' + spec[3] + '×' + spec[4] + '</dd></div><div><dt>Peso</dt><dd>' + String(spec[5]).replace('.',',') + ' kg</dd></div></dl>'
         : '<dl class="specs"><div><dt>Capacidade</dt><dd>' + spec[0] + ' Ah</dd></div><div><dt>Fabricante</dt><dd>Grupo Moura</dd></div><div><dt>Garantia</dt><dd>Confirmada no atendimento</dd></div></dl>';
       return '<label class="bat"><input type="radio" name="bat" value="' + esc(o.code) + '"' + (o.code === st.bat ? ' checked' : '') + '>' +
-        '<div class="cell' + (z ? ' z' : '') + '">' + spec[0] + '<small>AH</small></div>' +
+        '<img class="bat-img" src="imagens/' + (z ? 'zetta' : 'moura') + '.webp" width="96" height="74" loading="lazy" decoding="async" alt="Bateria ' + marcaBat(o.code) + ' ' + esc(o.code) + '">' +
         '<div style="min-width:0"><div class="bat-head"><h3>' + marcaBat(o.code) + ' ' + esc(o.code) + '</h3><span class="tag' + (o.main ? '' : ' alt') + '">' + (o.main ? 'Indicada' : 'Opção econômica') + '</span></div>' +
         specs + '<p class="price">' + (p ? brl(p) + ' <small>à base de troca</small>' : '<small>Preço confirmado pelo WhatsApp</small>') + '</p></div></label>';
     }).join('');
