@@ -129,6 +129,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .bat input{position:absolute;opacity:0;pointer-events:none}
 .bat:has(input:focus-visible){outline:3px solid var(--volt);outline-offset:2px}
 .bat-img{display:block;width:96px;height:auto;aspect-ratio:768/595;object-fit:contain;border-radius:8px}
+@media (max-width:640px){.bat{grid-template-columns:minmax(0,1fr);gap:10px}.bat-img{width:min(200px,64%);margin-inline:auto}}
 .cell{width:62px;height:70px;border-radius:8px;background:var(--brand-deep);position:relative;display:grid;place-items:center;color:var(--on-brand);font-family:var(--f-display);font-weight:900;font-size:1.25rem;font-stretch:80%}
 .cell.z{background:#2A2F3A}
 .cell::before,.cell::after{content:"";position:absolute;top:-7px;width:12px;height:7px;border-radius:2px 2px 0 0;background:var(--volt)}
@@ -758,9 +759,11 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
   /* ===== Rascunho dos dados do cliente (só neste navegador) ===== */
   var DRAFT = ['nome','fone','rua','num','bairro','cidade','cep','ref'];
   function saveDraft(){
-    try { var o = {}; DRAFT.forEach(function(k){ o[k] = $(k).value; }); localStorage.setItem('bb-cliente', JSON.stringify(o)); } catch(e){}
+    try { var o = {}; DRAFT.forEach(function(k){ o[k] = $(k).value; }); sessionStorage.setItem('bb-cliente', JSON.stringify(o)); } catch(e){}
   }
-  try { var saved = JSON.parse(localStorage.getItem('bb-cliente') || 'null'); if (saved) { DRAFT.forEach(function(k){ if (saved[k]) $(k).value = saved[k]; }); if (saved.rua) mostrarEndereco(); } } catch(e){}
+  /* dados ficam só enquanto a aba está aberta; ao fechar o site, somem (e apaga o que versões antigas guardaram) */
+  try { localStorage.removeItem('bb-cliente'); } catch(e){}
+  try { var saved = JSON.parse(sessionStorage.getItem('bb-cliente') || 'null'); if (saved) { DRAFT.forEach(function(k){ if (saved[k]) $(k).value = saved[k]; }); if (saved.rua) mostrarEndereco(); } } catch(e){}
 
   search();
   $('p1').hidden = false; document.querySelector('#steps li').className = 'on';
