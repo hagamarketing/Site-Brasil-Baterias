@@ -473,7 +473,12 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
   /* ===== Configuração ===== */
   var WHATSAPP = '551434330722';
   /* Preços opcionais por código de bateria. Ex.: {'M60AD': 470, 'Z60D': 370}. Sem preço, aparece "sob consulta". */
-  var PRECOS = {};
+  var PRECOS = {
+    'M60GD':470, 'M60AD':470, 'M60GE':470, 'M60GX':470, 'MA60AD':470, 'MF60AD':470,
+    'Z60D':370,
+    'MF72LD':900,
+    'M100QD':1050, 'M100HE':970
+  };
 
   var D = JSON.parse(document.getElementById('dados').textContent);
   var TIPOS = {c:'Carro', m:'Moto', t:'Caminhão'};
