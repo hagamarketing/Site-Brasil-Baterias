@@ -619,8 +619,17 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
   var cepBuscado = '';
   function mostrarEndereco(foco){
     var c = $('end-campos'); if (!c.hidden) return;
-    c.hidden = false;
+    c.hidden = false; $('sem-cep').hidden = true;
     if (foco) $(foco).focus();
+  }
+  /* CEP apagado: esconde o endereço, limpa o que veio dele e devolve o "Não sei meu CEP" */
+  function esconderEndereco(){
+    if ($('end-campos').hidden) return;
+    $('end-campos').hidden = true; $('sem-cep').hidden = false;
+    ['rua','num','bairro','ref'].forEach(function(k){ $(k).value = ''; });
+    ['rua','num','bairro'].forEach(function(k){ setErr(k, ''); });
+    $('cidade').value = 'Marília - SP';
+    saveDraft();
   }
   $('sem-cep').addEventListener('click', function(){
     cepMsg('Preencha o endereço abaixo.');
@@ -632,6 +641,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
     this.value = d.length > 5 ? d.slice(0,5) + '-' + d.slice(5) : d;
     if (d.length === 8 && d !== cepBuscado) buscaCep(d);
     if (d.length < 8) { cepBuscado = ''; cepMsg('Digite o CEP para preencher o endereço automaticamente.'); }
+    if (!d.length) esconderEndereco();
   });
   function buscaCep(d){
     cepBuscado = d;
@@ -748,7 +758,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
   function saveDraft(){
     try { var o = {}; DRAFT.forEach(function(k){ o[k] = $(k).value; }); localStorage.setItem('bb-cliente', JSON.stringify(o)); } catch(e){}
   }
-  try { var saved = JSON.parse(localStorage.getItem('bb-cliente') || 'null'); if (saved) { DRAFT.forEach(function(k){ if (saved[k]) $(k).value = saved[k]; }); if (saved.rua) $('end-campos').hidden = false; } } catch(e){}
+  try { var saved = JSON.parse(localStorage.getItem('bb-cliente') || 'null'); if (saved) { DRAFT.forEach(function(k){ if (saved[k]) $(k).value = saved[k]; }); if (saved.rua) mostrarEndereco(); } } catch(e){}
 
   fillMarcas(); search();
   $('p1').hidden = false; document.querySelector('#steps li').className = 'on';
