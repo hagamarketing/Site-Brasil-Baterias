@@ -260,16 +260,10 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
           <div>
             <h2>Qual é o seu carro?</h2>
           </div>
-          <p class="sub">Digite o modelo do carro ou escolha a montadora.</p>
-          <div class="row2">
-            <div class="field">
-              <label for="busca">Modelo ou ano</label>
-              <input id="busca" type="search" placeholder="Ex.: Onix 2019" autocomplete="off">
-            </div>
-            <div class="field">
-              <label for="marca">Montadora</label>
-              <select id="marca"></select>
-            </div>
+          <p class="sub">Digite o modelo, o ano ou a montadora do carro.</p>
+          <div class="field">
+            <label for="busca">Modelo, ano ou montadora</label>
+            <input id="busca" type="search" placeholder="Ex.: Onix 2019 ou Fiat" autocomplete="off">
           </div>
           <p class="hint tnum" id="contagem"></p>
           <ul class="results" id="resultados"></ul>
@@ -528,32 +522,25 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
   });
 
   /* ===== Passo 1: veículo ===== */
-  function fillMarcas(){
-    var set = {};
-    D.v.forEach(function(v){ if (v[0] === st.tipo) set[v[1]] = (set[v[1]]||0) + 1; });
-    var ms = Object.keys(set).sort(function(a,b){ return a.localeCompare(b,'pt-BR'); });
-    $('marca').innerHTML = '<option value="">Todas as montadoras</option>' + ms.map(function(m){ return '<option>' + esc(m) + '</option>'; }).join('');
-  }
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 
   function search(){
-    var marca = $('marca').value, q = norm($('busca').value.trim());
+    var q = norm($('busca').value.trim());
     var toks = q ? q.split(/\s+/) : [];
     var words = toks.filter(function(t){ return !/^\d{4}$/.test(t); });
     var years = toks.filter(function(t){ return /^\d{4}$/.test(t); }).map(Number);
     var out = V.filter(function(x){
       var v = x.v;
       if (v[0] !== st.tipo) return false;
-      if (marca && v[1] !== marca) return false;
       for (var i=0;i<words.length;i++) if (x.s.indexOf(words[i]) < 0) return false;
       for (var j=0;j<years.length;j++) if (years[j] < v[3] || years[j] > v[4]) return false;
       return true;
     });
     var LIM = 80;
-    $('contagem').textContent = !marca && !q ? '' : out.length === 0 ? '' :
+    $('contagem').textContent = !q ? '' : out.length === 0 ? '' :
       out.length === 1 ? '1 veículo encontrado' : out.length + ' veículos encontrados' + (out.length > LIM ? '. Refine a busca para ver todos.' : '');
-    if (!marca && !q){
-      $('resultados').innerHTML = '<li class="empty">Digite o modelo ou escolha a montadora. Temos ' + V.filter(function(x){return x.v[0]===st.tipo;}).length.toLocaleString('pt-BR') + ' carros cadastrados.</li>';
+    if (!q){
+      $('resultados').innerHTML = '<li class="empty">Digite o modelo, o ano ou a montadora. Temos ' + V.filter(function(x){return x.v[0]===st.tipo;}).length.toLocaleString('pt-BR') + ' carros cadastrados.</li>';
       return;
     }
     if (!out.length){
@@ -566,7 +553,6 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
     }).join('');
   }
 
-  $('marca').addEventListener('change', search);
   $('busca').addEventListener('input', search);
   $('resultados').addEventListener('click', function(e){
     var b = e.target.closest('button[data-i]'); if (!b) return;
@@ -774,7 +760,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
   }
   try { var saved = JSON.parse(localStorage.getItem('bb-cliente') || 'null'); if (saved) { DRAFT.forEach(function(k){ if (saved[k]) $(k).value = saved[k]; }); if (saved.rua) mostrarEndereco(); } } catch(e){}
 
-  fillMarcas(); search();
+  search();
   $('p1').hidden = false; document.querySelector('#steps li').className = 'on';
 })();
 </script>
