@@ -75,7 +75,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hero-copy .eyebrow{color:var(--volt)}
 .hero h1{font-size:clamp(2.4rem,5.6vw,4.4rem)}
 @media (min-width:901px){.hero h1{font-size:clamp(2.2rem,4.2vw,3.5rem)}}
-@media (max-width:900px){.hero h1{font-size:clamp(1.8rem,7.4vw,2.6rem)}}
+@media (max-width:900px){.hero h1{font-size:clamp(1.8rem,9vw,3.4rem)}}
 .hero h1 em{font-style:normal;color:var(--volt)}
 .hero-lead{font-size:1.1rem;color:var(--on-brand-muted);max-width:44ch}
 .chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
@@ -167,6 +167,11 @@ legend{font-size:.85rem;font-weight:700;padding:0;margin-bottom:8px}
 .final{display:grid;gap:12px;border-top:1px solid var(--line);padding-top:16px}
 .btn-big{width:100%;padding:22px 20px;font-size:clamp(1rem,4.8vw,1.3rem);letter-spacing:.04em;white-space:nowrap;box-shadow:0 10px 24px -12px color-mix(in srgb,var(--zap) 70%,transparent)}
 .on-final .fab{display:none}
+.vendedor{display:none}
+@media (max-width:900px){.fab{display:none!important}
+  .vendedor{display:grid;gap:14px;text-align:center;justify-items:center}
+  .vendedor p{font-size:1.05rem;font-weight:600;max-width:30ch}
+  .vendedor .btn{width:100%;padding:20px 16px;font-size:clamp(.95rem,4.4vw,1.2rem);white-space:nowrap}}
 .final-sec .btn{padding:13px 8px;font-size:clamp(.72rem,3.4vw,.9rem);white-space:nowrap}
 .final-sec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 
@@ -378,6 +383,10 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
             </div>
           </div>
         </div>
+      </div>
+      <div class="vendedor">
+        <p>Prefere falar com um vendedor? Clique no botão abaixo:</p>
+        <a class="btn btn-zap" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20um%20vendedor." target="_blank" rel="noopener">Fale agora no WhatsApp</a>
       </div>
     </div>
   </section>
