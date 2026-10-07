@@ -161,6 +161,11 @@ legend{font-size:.85rem;font-weight:700;padding:0;margin-bottom:8px}
 .nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px}
 .nav .btn{flex:0 0 auto}
 .nav .btn-volt,.nav .btn-zap{margin-left:auto}
+.final{display:grid;gap:12px;border-top:1px solid var(--line);padding-top:16px}
+.btn-big{width:100%;padding:22px 20px;font-size:clamp(1rem,4.8vw,1.3rem);letter-spacing:.04em;white-space:nowrap;box-shadow:0 10px 24px -12px color-mix(in srgb,var(--zap) 70%,transparent)}
+.on-final .fab{display:none}
+.final-sec .btn{padding:13px 8px;font-size:clamp(.72rem,3.4vw,.9rem);white-space:nowrap}
+.final-sec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 
 .summary{display:grid;margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .summary div{display:grid;grid-template-columns:120px minmax(0,1fr);gap:12px;padding:10px 14px;border-bottom:1px solid var(--line)}
@@ -368,10 +373,12 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
           <div class="sent" id="enviado" hidden>
             <b>O WhatsApp abriu em outra aba?</b> Envie a mensagem por lá. Se não abriu, copie o pedido e mande para <b class="tnum">(14) 3433-0722</b>.
           </div>
-          <div class="nav">
-            <button type="button" class="btn btn-ghost" data-go="3">Editar</button>
-            <button type="button" class="btn btn-ghost" id="copiar">Copiar pedido</button>
-            <a class="btn btn-zap" id="enviar" href="#" target="_blank" rel="noopener">Enviar pelo WhatsApp</a>
+          <div class="final">
+            <a class="btn btn-zap btn-big" id="enviar" href="#" target="_blank" rel="noopener">Enviar pelo WhatsApp</a>
+            <div class="final-sec">
+              <button type="button" class="btn btn-ghost" data-go="3">Editar pedido</button>
+              <button type="button" class="btn btn-ghost" id="copiar">Copiar pedido</button>
+            </div>
           </div>
         </div>
       </div>
@@ -483,6 +490,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
   /* ===== Passos ===== */
   function go(n){
     st.step = n; if (n > st.reached) st.reached = n;
+    document.body.classList.toggle('on-final', n === 4);
     for (var i=1;i<=4;i++) $('p'+i).hidden = i !== n;
     document.querySelectorAll('#steps li').forEach(function(li){
       var s = +li.dataset.s; li.className = s === n ? 'on' : (s <= st.reached ? 'done' : '');
