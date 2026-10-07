@@ -304,10 +304,11 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
               <label for="cep">CEP</label>
               <div class="cep-row">
                 <input id="cep" inputmode="numeric" placeholder="17500-000" autocomplete="postal-code" aria-describedby="cep-msg">
-                <a class="linkbtn" href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank" rel="noopener">Não sei meu CEP</a>
+                <button type="button" class="linkbtn" id="sem-cep">Não sei meu CEP</button>
               </div>
               <span class="cep-msg" id="cep-msg">Digite o CEP para preencher o endereço automaticamente.</span>
             </div>
+            <div id="end-campos" hidden style="display:grid;gap:12px">
             <div class="row3">
               <div class="field"><label for="rua">Rua / avenida</label><input id="rua" autocomplete="address-line1" required><span class="err" hidden></span></div>
               <div class="field"><label for="num">Número</label><input id="num" inputmode="numeric" required><span class="err" hidden></span></div>
@@ -317,6 +318,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
               <div class="field"><label for="cidade">Cidade</label><input id="cidade" value="Marília - SP" autocomplete="address-level2"></div>
             </div>
             <div class="field"><label for="ref">Complemento ou referência</label><input id="ref" placeholder="Ex.: apto 12, portão azul"></div>
+            </div>
           </div>
 
           <fieldset>
@@ -615,6 +617,15 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
       d.length > 2 ? '(' + d.slice(0,2) + ') ' + d.slice(2) : d;
   });
   var cepBuscado = '';
+  function mostrarEndereco(foco){
+    var c = $('end-campos'); if (!c.hidden) return;
+    c.hidden = false;
+    if (foco) $(foco).focus();
+  }
+  $('sem-cep').addEventListener('click', function(){
+    cepMsg('Preencha o endereço abaixo.');
+    mostrarEndereco('rua');
+  });
   function cepMsg(txt, cls){ var m = $('cep-msg'); m.textContent = txt; m.className = 'cep-msg' + (cls ? ' ' + cls : ''); }
   $('cep').addEventListener('input', function(){
     var d = this.value.replace(/\D/g,'').slice(0,8);
@@ -632,18 +643,18 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
       .then(function(j){
         clearTimeout(t);
         if (d !== cepBuscado) return;
-        if (j.erro) { cepMsg('CEP não encontrado. Confira o número ou preencha o endereço abaixo.', 'bad'); return; }
+        if (j.erro) { cepMsg('CEP não encontrado. Confira o número ou preencha o endereço abaixo.', 'bad'); mostrarEndereco(); return; }
         if (j.logradouro) $('rua').value = j.logradouro;
         if (j.bairro) $('bairro').value = j.bairro;
         if (j.localidade) $('cidade').value = j.localidade + (j.uf ? ' - ' + j.uf : '');
         ['rua','bairro'].forEach(function(k){ if ($(k).value) setErr(k, ''); });
         cepMsg('Endereço preenchido. Confira e informe o número.', 'ok');
         saveDraft();
-        $(j.logradouro ? 'num' : 'rua').focus();
+        mostrarEndereco(j.logradouro ? 'num' : 'rua');
       })
       .catch(function(){
         clearTimeout(t);
-        if (d === cepBuscado) cepMsg('Não foi possível buscar o CEP agora. Preencha o endereço abaixo.', 'bad');
+        if (d === cepBuscado) { cepMsg('Não foi possível buscar o CEP agora. Preencha o endereço abaixo.', 'bad'); mostrarEndereco(); }
       });
   }
 
@@ -658,6 +669,10 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
     chk('nome', $('nome').value.trim().length < 2 ? 'Informe seu nome.' : '');
     chk('fone', $('fone').value.replace(/\D/g,'').length < 10 ? 'Informe o WhatsApp com DDD.' : '');
     var entrega = val('modo') === 'entrega';
+    if (entrega && $('end-campos').hidden){
+      cepMsg('Digite o CEP ou toque em "Não sei meu CEP" para informar o endereço.', 'bad');
+      ok = false; first = first || 'cep';
+    }
     chk('rua', entrega && !$('rua').value.trim() ? 'Informe a rua.' : '');
     chk('num', entrega && !$('num').value.trim() ? 'Informe o número.' : '');
     chk('bairro', entrega && !$('bairro').value.trim() ? 'Informe o bairro.' : '');
@@ -733,7 +748,7 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
   function saveDraft(){
     try { var o = {}; DRAFT.forEach(function(k){ o[k] = $(k).value; }); localStorage.setItem('bb-cliente', JSON.stringify(o)); } catch(e){}
   }
-  try { var saved = JSON.parse(localStorage.getItem('bb-cliente') || 'null'); if (saved) DRAFT.forEach(function(k){ if (saved[k]) $(k).value = saved[k]; }); } catch(e){}
+  try { var saved = JSON.parse(localStorage.getItem('bb-cliente') || 'null'); if (saved) { DRAFT.forEach(function(k){ if (saved[k]) $(k).value = saved[k]; }); if (saved.rua) $('end-campos').hidden = false; } } catch(e){}
 
   fillMarcas(); search();
   $('p1').hidden = false; document.querySelector('#steps li').className = 'on';
