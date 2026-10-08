@@ -597,7 +597,11 @@ document.addEventListener('click', function(e){
     }).join('');
   }
 
-  $('busca').addEventListener('input', search);
+  $('busca').addEventListener('input', function(){
+    search();
+    /* apagou o carro: volta tudo ao começo (veículo, bateria, entrega e resumo) */
+    if (!this.value.trim() && (st.veh || st.reached > 1)) limparPedido();
+  });
   $('resultados').addEventListener('click', function(e){
     var b = e.target.closest('button[data-i]'); if (!b) return;
     pickVehicle(D.v[+b.dataset.i]);
@@ -796,6 +800,20 @@ document.addEventListener('click', function(e){
     }
     try { navigator.clipboard.writeText(txt).then(done, fallback); } catch(e){ fallback(); }
   });
+
+  /* ===== Recomeçar o pedido ===== */
+  function limparPedido(){
+    st.veh = null; st.bat = null; st.reached = 1;
+    form.reset();
+    ['nome','fone','rua','num','bairro','data'].forEach(function(k){ setErr(k, ''); });
+    $('agenda').hidden = true; $('troco-box').hidden = true; syncModo();
+    cepBuscado = ''; cepMsg('Digite o CEP para preencher o endereço automaticamente.');
+    $('end-campos').hidden = true; $('sem-cep').hidden = false;
+    $('bats').innerHTML = ''; $('avisos').innerHTML = ''; $('avisos').hidden = true;
+    $('resumo').innerHTML = ''; $('enviado').hidden = true; pedidoId = '';
+    try { sessionStorage.removeItem('bb-cliente'); } catch(e){}
+    go(1);
+  }
 
   /* ===== Rascunho dos dados do cliente (só neste navegador) ===== */
   var DRAFT = ['nome','fone','rua','num','bairro','cidade','cep','ref'];
