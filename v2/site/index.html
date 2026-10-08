@@ -234,6 +234,38 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 
+<!-- Google tag (gtag.js): Analytics (G-HRMS08WHM4) e Google Ads (AW-815092858) na mesma tag -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HRMS08WHM4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HRMS08WHM4');
+  gtag('config', 'AW-815092858');
+</script>
+<!-- Event snippet for Botão Whatsapp conversion page -->
+<script>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-815092858/6iQOCI_B7JUYEPqo1YQD',
+      'event_callback': callback
+  });
+  return false;
+}
+/* Todo botão/link do WhatsApp (wa.me) registra a conversão ao ser clicado.
+   Sem url, o link continua abrindo normalmente em outra aba; o clique nunca fica bloqueado por erro do Google. */
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('a[href^="https://wa.me/"]');
+  if (!a) return;
+  try { gtag_report_conversion(); } catch(err) {}
+});
+</script>
 </head>
 <body>
 <header class="top">
@@ -565,7 +597,11 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
     }).join('');
   }
 
-  $('busca').addEventListener('input', search);
+  $('busca').addEventListener('input', function(){
+    search();
+    /* apagou o carro: volta tudo ao começo (veículo, bateria, entrega e resumo) */
+    if (!this.value.trim() && (st.veh || st.reached > 1)) limparPedido();
+  });
   $('resultados').addEventListener('click', function(e){
     var b = e.target.closest('button[data-i]'); if (!b) return;
     pickVehicle(D.v[+b.dataset.i]);
@@ -764,6 +800,20 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
     }
     try { navigator.clipboard.writeText(txt).then(done, fallback); } catch(e){ fallback(); }
   });
+
+  /* ===== Recomeçar o pedido ===== */
+  function limparPedido(){
+    st.veh = null; st.bat = null; st.reached = 1;
+    form.reset();
+    ['nome','fone','rua','num','bairro','data'].forEach(function(k){ setErr(k, ''); });
+    $('agenda').hidden = true; $('troco-box').hidden = true; syncModo();
+    cepBuscado = ''; cepMsg('Digite o CEP para preencher o endereço automaticamente.');
+    $('end-campos').hidden = true; $('sem-cep').hidden = false;
+    $('bats').innerHTML = ''; $('avisos').innerHTML = ''; $('avisos').hidden = true;
+    $('resumo').innerHTML = ''; $('enviado').hidden = true; pedidoId = '';
+    try { sessionStorage.removeItem('bb-cliente'); } catch(e){}
+    go(1);
+  }
 
   /* ===== Rascunho dos dados do cliente (só neste navegador) ===== */
   var DRAFT = ['nome','fone','rua','num','bairro','cidade','cep','ref'];
