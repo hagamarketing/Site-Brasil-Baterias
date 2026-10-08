@@ -234,6 +234,36 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);paddin
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 
+<!-- Google Ads: tag global e conversão "Botão Whatsapp" -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-815092858"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'AW-815092858');
+</script>
+<!-- Event snippet for Botão Whatsapp conversion page -->
+<script>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-815092858/6iQOCI_B7JUYEPqo1YQD',
+      'event_callback': callback
+  });
+  return false;
+}
+/* Todo botão/link do WhatsApp (wa.me) registra a conversão ao ser clicado.
+   Sem url, o link continua abrindo normalmente em outra aba; o clique nunca fica bloqueado por erro do Google. */
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('a[href^="https://wa.me/"]');
+  if (!a) return;
+  try { gtag_report_conversion(); } catch(err) {}
+});
+</script>
 </head>
 <body>
 <header class="top">
