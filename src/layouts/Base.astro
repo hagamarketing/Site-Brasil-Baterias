@@ -1,0 +1,90 @@
+---
+import '@/styles/global.css';
+import { Font } from 'astro:assets';
+import Seo from '@/components/global/Seo.astro';
+import Header from '@/components/global/Header.astro';
+import Footer from '@/components/global/Footer.astro';
+import WhatsAppFloat from '@/components/global/WhatsAppFloat.astro';
+import Analytics from '@/components/global/Analytics.astro';
+import { site } from '@/data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  schema?: boolean;
+}
+
+const {
+  title = site.titulo,
+  description = site.descricao,
+  image,
+  noindex,
+  schema,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0B1765" />
+    <meta name="color-scheme" content="dark" />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('motion');
+    </script>
+    <Font cssVariable="--font-bricolage" preload />
+    <Font cssVariable="--font-inter" preload />
+    <Seo {...{ title, description, image, noindex, schema }} />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="/imagens/logo.png" />
+    <link rel="sitemap" href="/sitemap.xml" />
+  </head>
+  <body class="font-sans antialiased">
+    <a
+      href="#conteudo"
+      class="bg-fg text-bg fixed top-3 left-3 z-[100] -translate-y-20 rounded-full px-4 py-2 text-sm font-semibold focus:translate-y-0"
+      >Pular para o conteúdo</a
+    >
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="cursor" data-cursor-root aria-hidden="true">
+      <div class="cursor__ring"></div>
+      <div class="cursor__dot"></div>
+    </div>
+
+    <Header />
+    <main id="conteudo" tabindex="-1" class="outline-none">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppFloat />
+    <Analytics />
+
+    <script>
+      import { onPageLoad } from '@/scripts/lifecycle';
+      import { initAnchorLinks, initSmoothScroll } from '@/scripts/smooth-scroll';
+      import { initCursor } from '@/scripts/cursor';
+      import { initMagnetic } from '@/scripts/magnetic';
+      import { initCounters } from '@/scripts/counters';
+      import { isDesktopPointer } from '@/scripts/motion';
+
+      initAnchorLinks();
+
+      onPageLoad(() => {
+        initCounters();
+        // Efeitos que dependem do GSAP só no desktop e só quando o navegador está ocioso
+        if (!isDesktopPointer()) return;
+        const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 200));
+        idle(() => {
+          void initSmoothScroll();
+          void initCursor();
+          void initMagnetic();
+        });
+      });
+    </script>
+  </body>
+</html>

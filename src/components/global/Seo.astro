@@ -1,0 +1,36 @@
+---
+import { site } from '@/data/site';
+import { lojaSchema } from '@/data/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+  /** Inclui os dados estruturados da loja (só na home). */
+  schema?: boolean;
+}
+
+const { title, description, image = '/imagens/logo.png', noindex = false, schema = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', site.url).href;
+const ogImage = new URL(image, site.url).href;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:site_name" content={site.nome} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+{schema && <script type="application/ld+json" set:html={JSON.stringify(lojaSchema)} />}

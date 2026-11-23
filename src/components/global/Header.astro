@@ -1,0 +1,131 @@
+---
+import Logo from '@/components/ui/Logo.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { navegacao, site } from '@/data/site';
+---
+
+<header data-header class="site-header fixed inset-x-0 top-0 z-50">
+  <div class="site-header__bg absolute inset-0 border-b border-line bg-bg/80 backdrop-blur-xl" aria-hidden="true"></div>
+  <div class="container-site relative flex h-(--header-h) items-center justify-between gap-6">
+    <Logo />
+
+    <nav aria-label="Principal" class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {
+          navegacao.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="text-muted hover:text-fg rounded-full px-3.5 py-2 text-sm font-medium transition-colors"
+              >
+                {item.rotulo}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <span class="text-muted hidden text-sm xl:block">
+        Vendas <b class="text-fg tabular-nums">{site.telefone}</b>
+      </span>
+      <div class="hidden sm:block">
+        <Button href={site.telefoneLink} variant="accent" icon="phone" magnetic>Ligue agora</Button>
+      </div>
+      <button
+        type="button"
+        popovertarget="menu-mobile"
+        class="grid size-11 place-items-center rounded-full border border-line-strong lg:hidden"
+        aria-label="Abrir menu"
+      >
+        <Icon name="menu" />
+      </button>
+    </div>
+  </div>
+
+  <div id="menu-mobile" popover class="menu-popover lg:hidden" aria-label="Menu">
+    <div class="container-site flex h-full flex-col">
+      <div class="flex h-(--header-h) items-center justify-between">
+        <Logo />
+        <button
+          type="button"
+          popovertarget="menu-mobile"
+          popovertargetaction="hide"
+          class="grid size-11 place-items-center rounded-full border border-line-strong"
+          aria-label="Fechar menu"
+        >
+          <Icon name="close" />
+        </button>
+      </div>
+      <nav aria-label="Menu móvel" class="mt-8 flex-1">
+        <ul class="flex flex-col">
+          {
+            navegacao.map((item, i) => (
+              <li class="menu-item border-b border-line" style={`--i:${i}`}>
+                <a href={item.href} data-close-menu class="font-display flex items-center justify-between py-5 text-3xl font-semibold">
+                  {item.rotulo}
+                  <Icon name="arrow" class="text-muted" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <div class="pb-10">
+        <Button href={site.telefoneLink} variant="accent" size="lg" icon="phone" class="w-full">Ligue agora</Button>
+        <p class="text-muted mt-4 text-center text-sm">{site.telefone} · {site.cidade}-{site.estado}</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* Fundo do menu aparece conforme a página rola (scroll-driven). Sem suporte: sempre visível. */
+  @supports (animation-timeline: scroll()) {
+    .site-header__bg {
+      animation: header-bg linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 120px;
+    }
+  }
+  @keyframes header-bg {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .menu-item {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+      opacity 0.5s var(--ease-out-expo),
+      transform 0.5s var(--ease-out-expo);
+    transition-delay: calc(var(--i) * 45ms + 80ms);
+  }
+  :global(.menu-popover:popover-open) .menu-item {
+    opacity: 1;
+    transform: none;
+  }
+  @starting-style {
+    :global(.menu-popover:popover-open) .menu-item {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+  }
+</style>
+
+<script>
+  import { onPageLoad } from '@/scripts/lifecycle';
+
+  onPageLoad(() => {
+    const menu = document.getElementById('menu-mobile');
+    menu?.querySelectorAll('[data-close-menu]').forEach((link) => {
+      link.addEventListener('click', () => menu.hidePopover());
+    });
+  });
+</script>

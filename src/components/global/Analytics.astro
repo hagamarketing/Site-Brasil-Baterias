@@ -1,0 +1,29 @@
+---
+/**
+ * GA4 e Google Ads, carregados depois que a página termina de abrir (não pesam no carregamento).
+ * Todo link do WhatsApp (wa.me) registra o evento e a conversão do Google Ads ao ser clicado.
+ */
+---
+
+<script>
+  import { loadTags, trackWhatsApp } from '@/scripts/analytics';
+
+  const iniciar = () => {
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 1500));
+    idle(loadTags, { timeout: 4000 });
+  };
+  if (document.readyState === 'complete') iniciar();
+  else window.addEventListener('load', iniciar, { once: true });
+
+  // loadTags também roda no primeiro clique, para a conversão nunca se perder
+  document.addEventListener(
+    'click',
+    (event) => {
+      const wa = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[href*="wa.me/"]');
+      if (!wa) return;
+      loadTags();
+      trackWhatsApp(wa.dataset.waOrigem ?? 'link');
+    },
+    { capture: true },
+  );
+</script>

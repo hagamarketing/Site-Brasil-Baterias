@@ -1,0 +1,12 @@
+---
+import { site } from '@/data/site';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<a href="/" class:list={['inline-flex items-center', className]} aria-label={`${site.nome}, início`}>
+  <img src="/imagens/logo.png" alt={site.nomeLegal} width="158" height="70" class="h-12 w-auto sm:h-14" />
+</a>

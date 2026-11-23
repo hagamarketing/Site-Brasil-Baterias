@@ -1,0 +1,126 @@
+---
+import Button from '@/components/ui/Button.astro';
+import { sobre } from '@/data/conteudo';
+import { linkWhatsApp } from '@/data/site';
+
+const limpa = (p: string) => p.toLowerCase().replace(/[^\p{L}\d]/gu, '');
+const destaques = new Set<string>(sobre.destaque.map(limpa));
+const palavras = sobre.titulo.split(' ').map((texto) => ({ texto, destaque: destaques.has(limpa(texto)) }));
+---
+
+<section id="inicio" class="relative isolate overflow-hidden pt-[calc(var(--header-h)+3.5rem)] pb-24 lg:pt-[calc(var(--header-h)+6rem)] lg:pb-32">
+  <div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+    <img
+      src="/imagens/fachada-brasil-baterias.webp"
+      alt=""
+      width="1024"
+      height="620"
+      fetchpriority="high"
+      decoding="async"
+      data-parallax
+      class="absolute inset-x-0 -top-[8%] h-[116%] w-full object-cover"
+    />
+    <div class="absolute inset-0 bg-[linear-gradient(100deg,rgb(6_10_28/0.94)_0%,rgb(11_23_101/0.82)_48%,rgb(27_47_168/0.5)_100%)]"></div>
+    <div class="mesh"><span class="mesh__blob"></span><span class="mesh__blob"></span><span class="mesh__blob"></span></div>
+    <div
+      class="absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgb(255_255_255/0.05)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.05)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:radial-gradient(70%_60%_at_30%_40%,#000,transparent)]"
+    >
+    </div>
+    <div class="to-bg absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent"></div>
+  </div>
+
+  <div class="container-site">
+    <div class="max-w-3xl">
+      <p class="eyebrow hero-in" style="--d:.05s">{sobre.rotulo}</p>
+      <h2 data-split class="hero-title mt-6 text-[2.6rem] leading-[1.02] sm:text-6xl lg:text-7xl">
+        {
+          palavras.map((p, i) => (
+            <>
+              {p.destaque ? <span class="hl text-gradient">{p.texto}</span> : p.texto}
+              {i < palavras.length - 1 && ' '}
+            </>
+          ))
+        }
+      </h2>
+      <p class="hero-in mt-7 max-w-xl text-lg leading-relaxed text-[#d4daf5] sm:text-xl" style="--d:.5s">{sobre.texto}</p>
+      <div class="hero-in mt-9 flex flex-col gap-3 sm:flex-row" style="--d:.65s">
+        <Button href={linkWhatsApp()} variant="whatsapp" size="lg" icon="whatsapp" magnetic waOrigem="sobre-nos">
+          Fale com um vendedor
+        </Button>
+        <Button href="#pedido-secao" variant="ghost" size="lg" iconRight="arrow-down" magnetic>Escolher minha bateria</Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-in {
+      animation: hero-in 1s var(--ease-out-expo) both;
+      animation-delay: var(--d, 0s);
+    }
+  }
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  import { onPageLoad, onCleanup } from '@/scripts/lifecycle';
+  import { loadGsap, loadSplitText } from '@/scripts/gsap';
+  import { prefersReducedMotion } from '@/scripts/motion';
+
+  onPageLoad(async () => {
+    const title = document.querySelector<HTMLElement>('.hero-title[data-split]');
+    // Pausa os gradientes animados quando saem da tela
+    const meshes = document.querySelectorAll<HTMLElement>('.mesh');
+    const io = new IntersectionObserver((entries) =>
+      entries.forEach((e) => e.target.classList.toggle('is-paused', !e.isIntersecting)),
+    );
+    meshes.forEach((m) => io.observe(m));
+    onCleanup(() => io.disconnect());
+
+    if (prefersReducedMotion()) return;
+
+    const [{ gsap, ScrollTrigger }, SplitText] = await Promise.all([loadGsap(), loadSplitText()]);
+
+    // Foto da fachada se move mais devagar que a página (parallax)
+    const foto = document.querySelector<HTMLElement>('[data-parallax]');
+    if (foto) {
+      gsap.to(foto, {
+        yPercent: 7,
+        ease: 'none',
+        scrollTrigger: { trigger: '#inicio', start: 'top top', end: 'bottom top', scrub: true },
+      });
+    }
+
+    if (!title) return;
+    await document.fonts.ready;
+    const split = SplitText.create(title, {
+      type: 'words',
+      mask: 'words',
+      wordsClass: 'hero-word',
+      autoSplit: true,
+      onSplit(self) {
+        // O gradiente precisa ficar na própria palavra animada
+        title.querySelectorAll('.hl').forEach((hl) => {
+          hl.classList.remove('text-gradient');
+          hl.querySelectorAll('.hero-word').forEach((w) => w.classList.add('text-gradient'));
+        });
+        title.classList.add('is-split');
+        return gsap.from(self.words, { yPercent: 115, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.055, delay: 0.1 });
+      },
+    });
+    onCleanup(() => {
+      split.revert();
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    });
+  });
+</script>

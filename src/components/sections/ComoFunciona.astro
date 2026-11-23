@@ -1,0 +1,50 @@
+---
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { passos } from '@/data/conteudo';
+---
+
+<section id="como-funciona" class="section-y relative" aria-labelledby="como-titulo">
+  <div class="container-site">
+    <SectionHeading id="como-titulo" rotulo="Como funciona" titulo="Do pedido à partida em três passos" />
+
+    <div class="relative mt-14">
+      <div class="bg-line absolute top-7 right-[16%] left-[16%] hidden h-px lg:block" aria-hidden="true">
+        <div data-linha class="bg-accent h-full origin-left"></div>
+      </div>
+      <ol class="grid gap-6 lg:grid-cols-3">
+        {
+          passos.map((p, i) => (
+            <li class="passo card p-7" data-reveal style={`--i:${i}`}>
+              <span class="font-display bg-accent mb-6 grid size-14 place-items-center rounded-full text-2xl font-bold text-[#141826]">{i + 1}</span>
+              <h3 class="text-2xl">{p.titulo}</h3>
+              <p class="text-muted mt-3 leading-relaxed">{p.texto}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { onPageLoad } from '@/scripts/lifecycle';
+  import { scopedContext } from '@/scripts/gsap';
+  import { whenNear } from '@/scripts/near';
+  import { prefersReducedMotion } from '@/scripts/motion';
+
+  onPageLoad(() => {
+    const secao = document.getElementById('como-funciona');
+    const linha = secao?.querySelector<HTMLElement>('[data-linha]');
+    if (!secao || !linha || prefersReducedMotion()) return;
+    whenNear(secao, () => {
+      void scopedContext(secao, (gsap) => {
+        // A linha que liga os passos se desenha conforme a rolagem
+        gsap.fromTo(
+          linha,
+          { scaleX: 0 },
+          { scaleX: 1, ease: 'none', scrollTrigger: { trigger: secao, start: 'top 65%', end: 'center 45%', scrub: true } },
+        );
+      });
+    });
+  });
+</script>
