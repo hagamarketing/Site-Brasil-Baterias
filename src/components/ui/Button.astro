@@ -1,0 +1,47 @@
+---
+import Icon, { type IconName } from './Icon.astro';
+
+interface Props {
+  href: string;
+  variant?: 'primary' | 'ghost' | 'whatsapp' | 'accent';
+  size?: 'md' | 'lg';
+  icon?: IconName;
+  iconRight?: IconName;
+  magnetic?: boolean;
+  /** Origem do clique no WhatsApp, enviada para GA4/Ads/Meta. */
+  waOrigem?: string;
+  external?: boolean;
+  class?: string;
+}
+
+const { href, variant = 'primary', size = 'md', icon, iconRight, magnetic = false, waOrigem, external, class: className } = Astro.props;
+const isExternal = external ?? /^https?:/.test(href);
+
+const variants = {
+  primary: 'bg-fg text-bg hover:bg-white',
+  accent: 'bg-accent text-[#141826] hover:brightness-110',
+  whatsapp: 'bg-wa text-wa-ink hover:brightness-110',
+  ghost: 'border border-line-strong bg-fg/[0.03] text-fg hover:bg-fg/[0.08] backdrop-blur',
+};
+const sizes = { md: 'h-11 px-5 text-sm', lg: 'h-14 px-7 text-base' };
+---
+
+<a
+  href={href}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener' : undefined}
+  data-magnetic={magnetic ? '0.3' : undefined}
+  data-wa-origem={waOrigem}
+  class:list={[
+    'relative inline-flex items-center justify-center gap-2.5 rounded-full font-semibold whitespace-nowrap transition-[background-color,filter,color] duration-300 will-change-transform select-none',
+    variants[variant],
+    sizes[size],
+    className,
+  ]}
+>
+  <span data-magnetic-inner class="inline-flex items-center gap-2.5">
+    {icon && <Icon name={icon} size={size === 'lg' ? 22 : 18} />}
+    <slot />
+    {iconRight && <Icon name={iconRight} size={18} />}
+  </span>
+</a>

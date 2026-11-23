@@ -1,0 +1,185 @@
+---
+import { pedidoCopy } from '@/data/conteudo';
+import { linkWhatsApp } from '@/data/site';
+
+const limpa = (p: string) => p.toLowerCase().replace(/[^\p{L}\d]/gu, '');
+const destaques = new Set<string>(pedidoCopy.destaque.map(limpa));
+const palavras = pedidoCopy.titulo.split(' ').map((texto) => ({ texto, destaque: destaques.has(limpa(texto)) }));
+---
+
+<section id="pedido-secao" class="relative pt-20 pb-10 lg:pt-28 lg:pb-14">
+  <div class="container-site grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,34rem)] lg:gap-16">
+    <div class="min-w-0 lg:sticky lg:top-[calc(var(--header-h)+3rem)]">
+      <p class="eyebrow" data-reveal="fade">{pedidoCopy.rotulo}</p>
+      <h1 class="mt-5 text-[clamp(1.9rem,8.4vw,2.9rem)] lg:text-[clamp(2.2rem,3.6vw,3.3rem)]" data-reveal>
+        {
+          palavras.map((p, i) => (
+            <>
+              {p.destaque ? <span class="text-gradient">{p.texto}</span> : p.texto}
+              {i < palavras.length - 1 && ' '}
+            </>
+          ))
+        }
+      </h1>
+      <p class="text-muted mt-6 max-w-md text-lg leading-relaxed" data-reveal>{pedidoCopy.lead}</p>
+    </div>
+
+    <div class="min-w-0">
+      <div class="order card" id="pedido" aria-live="polite" data-reveal="scale">
+              <ol class="steps" id="steps">
+                <li data-s="1" class="on"><span>1</span>Veículo</li>
+                <li data-s="2"><span>2</span>Bateria</li>
+                <li data-s="3"><span>3</span>Entrega</li>
+                <li data-s="4"><span>4</span>Confirmar</li>
+              </ol>
+      
+              <!-- Passo 1 -->
+              <div class="panel" id="p1">
+                <div>
+                  <h2>Qual é o seu carro?</h2>
+                </div>
+                <p class="sub">Digite o modelo, o ano ou a montadora do carro.</p>
+                <div class="field">
+                  <label for="busca">Modelo, ano ou montadora</label>
+                  <input id="busca" type="search" placeholder="Ex.: Onix 2019 ou Fiat" autocomplete="off">
+                </div>
+                <p class="hint tnum" id="contagem"></p>
+                <ul class="results" id="resultados"></ul>
+              </div>
+      
+              <!-- Passo 2 -->
+              <div class="panel" id="p2" hidden>
+                <h2>Bateria indicada</h2>
+                <div class="vehicle-tag"><div><b id="v-nome"></b><small id="v-anos" class="tnum"></small></div><button type="button" class="linkbtn" data-go="1">Trocar</button></div>
+                <div id="avisos" class="bats"></div>
+                <div class="bats" id="bats" role="radiogroup" aria-label="Escolha a bateria"></div>
+                <p class="hint">Valores à base de troca: você entrega a bateria usada no momento da instalação. O valor final é confirmado pelo WhatsApp.</p>
+                <div class="nav">
+                  <button type="button" class="btn btn-ghost" data-go="1">Voltar</button>
+                  <button type="button" class="btn btn-volt" id="to3">Continuar</button>
+                </div>
+              </div>
+      
+              <!-- Passo 3 -->
+              <form class="panel" id="p3" hidden novalidate>
+                <h2>Entrega e pagamento</h2>
+                <fieldset>
+                  <legend>Como você quer receber?</legend>
+                  <div class="choice">
+                    <label class="opt" id="opt-entrega"><input type="radio" name="modo" value="entrega" checked><span><b>Entrega e instalação no local</b><small>Grátis em Marília. Levamos, testamos e instalamos.</small></span></label>
+                    <label class="opt"><input type="radio" name="modo" value="loja"><span><b>Instalar na loja</b><small>Av. Pedro de Toledo, 1894, Palmital</small></span></label>
+                  </div>
+                </fieldset>
+      
+                <div class="row2">
+                  <div class="field"><label for="nome">Seu nome</label><input id="nome" autocomplete="name" required><span class="err" hidden></span></div>
+                  <div class="field"><label for="fone">WhatsApp</label><input id="fone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(14) 99999-9999" required><span class="err" hidden></span></div>
+                </div>
+      
+                <div id="endereco" style="display:grid;gap:12px">
+                  <div class="field">
+                    <label for="cep">CEP</label>
+                    <div class="cep-row">
+                      <input id="cep" inputmode="numeric" placeholder="17500-000" autocomplete="postal-code" aria-describedby="cep-msg">
+                      <button type="button" class="linkbtn" id="sem-cep">Não sei meu CEP</button>
+                    </div>
+                    <span class="cep-msg" id="cep-msg">Digite o CEP para preencher o endereço automaticamente.</span>
+                  </div>
+                  <div id="end-campos" hidden style="display:grid;gap:12px">
+                  <div class="row3">
+                    <div class="field"><label for="rua">Rua / avenida</label><input id="rua" autocomplete="address-line1" required><span class="err" hidden></span></div>
+                    <div class="field"><label for="num">Número</label><input id="num" inputmode="numeric" required><span class="err" hidden></span></div>
+                  </div>
+                  <div class="row2">
+                    <div class="field"><label for="bairro">Bairro</label><input id="bairro" required><span class="err" hidden></span></div>
+                    <div class="field"><label for="cidade">Cidade</label><input id="cidade" value="Marília - SP" autocomplete="address-level2"></div>
+                  </div>
+                  <div class="field"><label for="ref">Complemento ou referência</label><input id="ref" placeholder="Ex.: apto 12, portão azul"></div>
+                  </div>
+                </div>
+      
+                <fieldset>
+                  <legend>Quando?</legend>
+                  <div class="pills">
+                    <label class="opt"><input type="radio" name="quando" value="agora" checked><span>O quanto antes</span></label>
+                    <label class="opt"><input type="radio" name="quando" value="agendar"><span>Agendar</span></label>
+                  </div>
+                </fieldset>
+                <div class="row2" id="agenda" hidden>
+                  <div class="field"><label for="data">Data</label><input id="data" type="date"><span class="err" hidden></span></div>
+                  <div class="field"><label for="periodo">Período</label><select id="periodo"><option value="Manhã (8h às 12h)">Manhã (8h às 12h)</option><option value="Tarde (13h às 18h)">Tarde (13h às 18h)</option></select></div>
+                </div>
+      
+                <fieldset>
+                  <legend>Pagamento na entrega</legend>
+                  <div class="pills" id="pagto">
+                    <label class="opt"><input type="radio" name="pag" value="Pix" checked><span>Pix</span></label>
+                    <label class="opt"><input type="radio" name="pag" value="Cartão de crédito"><span>Crédito</span></label>
+                    <label class="opt"><input type="radio" name="pag" value="Cartão de débito"><span>Débito</span></label>
+                    <label class="opt"><input type="radio" name="pag" value="Dinheiro"><span>Dinheiro</span></label>
+                  </div>
+                </fieldset>
+                <div class="field" id="troco-box" hidden><label for="troco">Troco para quanto? <small>(opcional)</small></label><input id="troco" inputmode="decimal" placeholder="R$ 500,00"></div>
+      
+                <fieldset>
+                  <legend>Bateria usada para troca</legend>
+                  <div class="choice">
+                    <label class="opt"><input type="radio" name="base" value="sim" checked><span><b>Sim, entrego a bateria usada</b><small>O preço é à base de troca, e a lei exige o descarte correto.</small></span></label>
+                    <label class="opt"><input type="radio" name="base" value="nao"><span><b>Não tenho bateria usada</b><small>Pode haver acréscimo no valor.</small></span></label>
+                  </div>
+                </fieldset>
+      
+                <div class="field"><label for="obs">Observações <small>(opcional)</small></label><textarea id="obs" rows="2" placeholder="Ex.: o carro está na garagem do prédio"></textarea></div>
+      
+                <div class="nav">
+                  <button type="button" class="btn btn-ghost" data-go="2">Voltar</button>
+                  <button type="submit" class="btn btn-volt">Revisar pedido</button>
+                </div>
+              </form>
+      
+              <!-- Passo 4 -->
+              <div class="panel" id="p4" hidden>
+                <h2>Confira seu pedido</h2>
+                <p class="sub">Ao enviar, o WhatsApp abre com a mensagem pronta para a nossa equipe. É só tocar em enviar.</p>
+                <dl class="summary" id="resumo"></dl>
+                <div class="sent" id="enviado" hidden>
+                  <b>O WhatsApp abriu em outra aba?</b> Envie a mensagem por lá. Se não abriu, copie o pedido e mande para <b class="tnum">(14) 3433-0722</b>.
+                </div>
+                <div class="final">
+                  <a class="btn btn-zap btn-big" id="enviar" href="#" target="_blank" rel="noopener">Enviar pelo WhatsApp</a>
+                  <div class="final-sec">
+                    <button type="button" class="btn btn-ghost" data-go="3">Editar pedido</button>
+                    <button type="button" class="btn btn-ghost" id="copiar">Copiar pedido</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+      <div class="vendedor mt-8 grid justify-items-center gap-4 text-center min-[901px]:hidden">
+        <p class="max-w-[30ch] text-lg font-semibold">Prefere falar com um vendedor? Clique no botão abaixo:</p>
+        <a
+          class="btn btn-zap w-full !py-5 text-[clamp(.95rem,4.4vw,1.2rem)]"
+          href={linkWhatsApp()}
+          target="_blank"
+          rel="noopener"
+          data-wa-origem="pedido-vendedor">Fale agora no WhatsApp</a
+        >
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { whenNear } from '@/scripts/near';
+  import { onPageLoad } from '@/scripts/lifecycle';
+
+  // O catálogo de veículos (e o código do assistente) só é baixado quando o pedido se aproxima da tela
+  onPageLoad(() => {
+    const box = document.getElementById('pedido');
+    if (!box) return;
+    const iniciar = () => void import('@/scripts/pedido').then((m) => m.initPedido());
+    whenNear(box, iniciar, '1200px 0px');
+    box.addEventListener('focusin', iniciar, { once: true });
+    box.addEventListener('pointerdown', iniciar, { once: true });
+  });
+</script>

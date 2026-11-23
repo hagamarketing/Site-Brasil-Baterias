@@ -1,0 +1,24 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import { linkWhatsApp } from '@/data/site';
+---
+
+<!-- Só no desktop: no celular o botão do WhatsApp fica abaixo do formulário -->
+<a
+  href={linkWhatsApp('Olá, vim pelo site e gostaria de ajuda para escolher uma bateria.')}
+  target="_blank"
+  rel="noopener"
+  data-wa-origem="flutuante"
+  class="wa-float bg-wa text-wa-ink fixed right-6 bottom-6 z-40 hidden size-16 place-items-center rounded-full shadow-[0_10px_30px_-5px_rgb(37_211_102/0.5)] transition-transform duration-300 hover:scale-105 min-[901px]:grid"
+  aria-label="Conversar no WhatsApp"
+>
+  <span class="bg-wa absolute inset-0 -z-10 rounded-full motion-safe:animate-pulse-ring" aria-hidden="true"></span>
+  <Icon name="whatsapp" size={30} />
+</a>
+
+<style is:global>
+  /* Some no passo final do pedido, onde já existe o botão grande de enviar */
+  body.on-final .wa-float {
+    display: none !important;
+  }
+</style>

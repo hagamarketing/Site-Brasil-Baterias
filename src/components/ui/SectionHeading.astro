@@ -1,0 +1,17 @@
+---
+interface Props {
+  rotulo: string;
+  titulo: string;
+  texto?: string;
+  align?: 'left' | 'center';
+  id?: string;
+  class?: string;
+}
+const { rotulo, titulo, texto, align = 'left', id, class: className } = Astro.props;
+---
+
+<header class:list={['max-w-3xl', align === 'center' && 'mx-auto text-center', className]}>
+  <p class:list={['eyebrow', align === 'center' && 'justify-center']} data-reveal="fade">{rotulo}</p>
+  <h2 id={id} class="mt-5 text-4xl sm:text-5xl lg:text-6xl" data-reveal>{titulo}</h2>
+  {texto && <p class="text-muted mt-6 text-lg leading-relaxed" data-reveal>{texto}</p>}
+</header>

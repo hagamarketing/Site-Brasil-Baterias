@@ -1,0 +1,88 @@
+---
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import { PRECOS, brl, destaques } from '@/data/baterias';
+import { linkWhatsApp } from '@/data/site';
+---
+
+<section id="mais-vendidas" class="section-y relative" aria-labelledby="mais-vendidas-titulo">
+  <div class="container-site">
+    <SectionHeading id="mais-vendidas-titulo" rotulo="Mais vendidas" titulo="As baterias que mais saem da nossa loja" />
+
+    <div class="carrossel mt-12">
+      <div class="trilho" id="trilho" tabindex="0" role="region" aria-label="Baterias mais vendidas">
+        {
+          destaques.map((d, i) => {
+            const preco = d.cod ? PRECOS[d.cod] : undefined;
+            return (
+              <article class="dest-card card" data-reveal style={`--i:${i}`}>
+                {d.imagem ? (
+                  <div class="dest-art">
+                    <img src={d.imagem} width="768" height="595" loading="lazy" decoding="async" alt={`Bateria ${d.titulo}${d.subtitulo ? ' ' + d.subtitulo : ''}`} />
+                    {d.etiqueta && <span class="dest-tag">{d.etiqueta}</span>}
+                  </div>
+                ) : (
+                  <div class="dest-art sem-foto" aria-hidden="true">
+                    {d.marca}
+                  </div>
+                )}
+                <h3>
+                  {d.titulo}
+                  {d.subtitulo && <small>{d.subtitulo}</small>}
+                </h3>
+                <ul class="dest-info">
+                  <li>
+                    <b>{d.capacidade}</b> de capacidade
+                  </li>
+                  <li>{d.garantia ? <><b>{d.garantia}</b> de garantia</> : <>Garantia: <b>consulte</b></>}</li>
+                </ul>
+                <p class="dest-preco">
+                  {preco ? <>{brl(preco)} <small>à base de troca</small></> : <small>Preço confirmado pelo WhatsApp</small>}
+                </p>
+                <a
+                  class="btn btn-zap"
+                  href={linkWhatsApp(d.mensagem)}
+                  target="_blank"
+                  rel="noopener"
+                  data-wa-origem={`destaque-${d.marca.toLowerCase()}`}>Quero esta bateria</a
+                >
+              </article>
+            );
+          })
+        }
+      </div>
+      <div class="car-nav" hidden>
+        <button type="button" class="car-btn car-prev" aria-label="Ver baterias anteriores">&#8249;</button>
+        <button type="button" class="car-btn car-next" aria-label="Ver mais baterias">&#8250;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { onPageLoad, onCleanup } from '@/scripts/lifecycle';
+  import { prefersReducedMotion } from '@/scripts/motion';
+
+  onPageLoad(() => {
+    const trilho = document.getElementById('trilho');
+    const nav = document.querySelector<HTMLElement>('.car-nav');
+    const prev = document.querySelector<HTMLButtonElement>('.car-prev');
+    const next = document.querySelector<HTMLButtonElement>('.car-next');
+    if (!trilho || !nav || !prev || !next) return;
+
+    const passo = () => (trilho.querySelector<HTMLElement>('.dest-card')?.offsetWidth ?? 284) + 16;
+    const atualiza = () => {
+      nav.hidden = trilho.scrollWidth - trilho.clientWidth <= 4;
+      prev.disabled = trilho.scrollLeft <= 4;
+      next.disabled = trilho.scrollLeft >= trilho.scrollWidth - trilho.clientWidth - 4;
+    };
+    const rolar = (dir: number) =>
+      trilho.scrollBy({ left: dir * passo(), behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+
+    prev.addEventListener('click', () => rolar(-1));
+    next.addEventListener('click', () => rolar(1));
+    trilho.addEventListener('scroll', atualiza, { passive: true });
+    addEventListener('resize', atualiza);
+    onCleanup(() => removeEventListener('resize', atualiza));
+    atualiza();
+  });
+</script>

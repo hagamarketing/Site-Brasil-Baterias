@@ -1,0 +1,70 @@
+---
+import Logo from '@/components/ui/Logo.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { linkWhatsApp, site } from '@/data/site';
+
+const ano = new Date().getFullYear();
+---
+
+<footer class="border-line bg-brand-deep/60 relative border-t">
+  <div class="container-site grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr]">
+    <div>
+      <Logo />
+      <p class="text-muted mt-5 max-w-xs text-sm leading-relaxed">
+        Desde {site.fundacao} proporcionando o melhor atendimento com transparência e agilidade.
+      </p>
+      <div class="mt-6 flex gap-2">
+        <a
+          href={linkWhatsApp()}
+          target="_blank"
+          rel="noopener"
+          data-wa-origem="rodape"
+          class="grid size-10 place-items-center rounded-full border border-line-strong transition-colors hover:bg-white/10"
+          aria-label="WhatsApp"><Icon name="whatsapp" /></a
+        >
+        <a
+          href={`mailto:${site.email}`}
+          class="grid size-10 place-items-center rounded-full border border-line-strong transition-colors hover:bg-white/10"
+          aria-label="E-mail"><Icon name="mail" /></a
+        >
+        <a
+          href={site.endereco.mapa}
+          target="_blank"
+          rel="noopener"
+          class="grid size-10 place-items-center rounded-full border border-line-strong transition-colors hover:bg-white/10"
+          aria-label="Ver no mapa"><Icon name="pin" /></a
+        >
+      </div>
+    </div>
+
+    <div>
+      <h3 class="font-display text-lg">Loja</h3>
+      <address class="text-muted mt-4 space-y-1 text-sm not-italic">
+        <p>{site.endereco.rua}</p>
+        <p>{site.endereco.bairro}, {site.cidade} - {site.estado}</p>
+        <p class="pt-2">
+          <a href={site.endereco.mapa} target="_blank" rel="noopener" class="text-accent hover:underline">Ver no mapa</a>
+        </p>
+      </address>
+    </div>
+
+    <div>
+      <h3 class="font-display text-lg">Atendimento</h3>
+      <ul class="text-muted mt-4 space-y-1 text-sm">
+        <li class="tabular-nums">{site.telefone}</li>
+        <li><a href={`mailto:${site.email}`} class="hover:text-fg transition-colors">{site.email}</a></li>
+        {site.horarios.map((h) => <li>{h.dia}: {h.horas}</li>)}
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-line border-t">
+    <div class="container-site text-muted flex flex-col gap-2 py-6 text-xs leading-relaxed">
+      <p>
+        Diante da responsabilidade ambiental de fabricantes, revendedores e consumidores, é obrigatória a devolução da
+        bateria inservível (Lei nº 12.305/2010).
+      </p>
+      <p>© {ano} {site.nomeLegal}. Desenvolvido por Haga Marketing.</p>
+    </div>
+  </div>
+</footer>

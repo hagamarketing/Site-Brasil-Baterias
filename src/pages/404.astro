@@ -1,0 +1,18 @@
+---
+import Base from '@/layouts/Base.astro';
+import Button from '@/components/ui/Button.astro';
+import { site } from '@/data/site';
+---
+
+<Base title={`Página não encontrada | ${site.nome}`} noindex>
+  <section class="section-y relative grid min-h-[70dvh] place-items-center pt-[calc(var(--header-h)+4rem)] text-center">
+    <div class="container-site">
+      <p class="eyebrow justify-center">Erro 404</p>
+      <h1 class="mt-6 text-5xl sm:text-7xl">Essa página <span class="text-gradient">não existe</span></h1>
+      <p class="text-muted mx-auto mt-6 max-w-md text-lg">O endereço pode ter mudado. Volte ao início e escolha a bateria do seu veículo.</p>
+      <div class="mt-9 flex justify-center">
+        <Button href="/" variant="accent" size="lg" iconRight="arrow">Voltar ao início</Button>
+      </div>
+    </div>
+  </section>
+</Base>
