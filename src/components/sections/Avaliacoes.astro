@@ -1,0 +1,36 @@
+---
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+---
+
+<section id="avaliacoes" class="section-y relative" aria-labelledby="avaliacoes-titulo">
+  <div class="container-site">
+    <SectionHeading id="avaliacoes-titulo" rotulo="Avaliações" titulo="O que nossos clientes dizem no Google" />
+
+    <!-- Widget de avaliações do Google (Common Ninja). O script só é carregado quando a seção se aproxima da tela. -->
+    <div class="mt-12 min-h-48" data-reveal="fade">
+      <div class="commonninja_component pid-ccb5824a-ac83-4b24-a4cb-551d59a436ef"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { onPageLoad } from '@/scripts/lifecycle';
+  import { whenNear } from '@/scripts/near';
+
+  onPageLoad(() => {
+    const secao = document.getElementById('avaliacoes');
+    if (!secao) return;
+    whenNear(
+      secao,
+      () => {
+        if (document.querySelector('script[data-commonninja]')) return;
+        const s = document.createElement('script');
+        s.src = 'https://cdn.commoninja.com/sdk/latest/commonninja.js';
+        s.defer = true;
+        s.dataset.commonninja = '';
+        document.head.append(s);
+      },
+      '600px 0px',
+    );
+  });
+</script>
