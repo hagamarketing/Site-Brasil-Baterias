@@ -1,0 +1,36 @@
+---
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Button from '@/components/ui/Button.astro';
+import { site } from '@/data/site';
+
+const embed =
+  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3342.758293356719!2d-49.9514693!3d-22.207112100000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94bfd726af66b88f%3A0xbd243e41e3b2f5ae!2sA%20Brasil%20Baterias%20-%20Desde%201980%20em%20Mar%C3%ADlia!5e1!3m2!1spt-BR!2sbr!4v1795464599174!5m2!1spt-BR!2sbr';
+---
+
+<section id="localizacao" class="section-y relative" aria-labelledby="mapa-titulo">
+  <div class="container-site">
+    <SectionHeading
+      id="mapa-titulo"
+      rotulo="Onde estamos"
+      titulo="Venha nos visitar em Marília"
+      texto={`${site.endereco.rua}, ${site.endereco.bairro}, ${site.cidade} - ${site.estado}`}
+    />
+
+    <div class="border-line-strong mt-10 overflow-hidden rounded-3xl border" data-reveal="scale">
+      <iframe
+        src={embed}
+        title="Mapa: A Brasil Baterias em Marília"
+        width="600"
+        height="450"
+        class="block h-[22rem] w-full border-0 sm:h-[28rem] lg:h-[32rem]"
+        style="border:0;"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+
+    <div class="mt-8">
+      <Button href={site.endereco.mapa} variant="ghost" icon="pin" external>Abrir no Google Maps</Button>
+    </div>
+  </div>
+</section>
