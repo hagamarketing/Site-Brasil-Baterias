@@ -177,6 +177,7 @@ legend{font-size:.85rem;font-weight:700;padding:0;margin-bottom:8px}
 .pedido .order{width:100%;border:1px solid var(--line);box-shadow:0 24px 60px -28px rgba(11,23,101,.35)}
 @media (max-width:900px){.pedido .wrap{grid-template-columns:1fr;gap:26px}}
 .destaques .sec-head{margin-bottom:22px}
+.perks-band + .destaques{padding-top:clamp(24px,4vw,44px)}
 .carrossel{position:relative}
 .trilho{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 16px;scrollbar-width:thin;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
 .trilho:focus-visible{outline-offset:2px}
@@ -513,6 +514,17 @@ document.addEventListener('click', function(e){
     </div>
   </section>
 
+  <section class="band perks-band">
+    <div class="wrap">
+      <div class="perks">
+        <div class="perk"><b>24 meses</b><span>de garantia nas baterias Moura, conforme o modelo</span></div>
+        <div class="perk"><b>50 min</b><span>para entregar e instalar em Marília</span></div>
+        <div class="perk"><b>R$ 0</b><span>de frete, teste e instalação</span></div>
+        <div class="perk"><b>5x sem juros</b><span>Parcele suas compras em até 5x sem juros no cartão</span></div>
+      </div>
+    </div>
+  </section>
+
   <section class="band destaques" id="mais-vendidas">
     <div class="wrap">
       <div class="sec-head">
@@ -554,17 +566,6 @@ document.addEventListener('click', function(e){
           <button type="button" class="car-btn car-prev" aria-label="Ver baterias anteriores">&#8249;</button>
           <button type="button" class="car-btn car-next" aria-label="Ver mais baterias">&#8250;</button>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="band">
-    <div class="wrap">
-      <div class="perks">
-        <div class="perk"><b>24 meses</b><span>de garantia nas baterias Moura, conforme o modelo</span></div>
-        <div class="perk"><b>50 min</b><span>para entregar e instalar em Marília</span></div>
-        <div class="perk"><b>R$ 0</b><span>de frete, teste e instalação</span></div>
-        <div class="perk"><b>5x sem juros</b><span>Parcele suas compras em até 5x sem juros no cartão</span></div>
       </div>
     </div>
   </section>
