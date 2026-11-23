@@ -70,11 +70,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 /* Hero */
 .hero{background:linear-gradient(100deg,rgba(11,23,101,.92) 0%,rgba(11,23,101,.82) 45%,rgba(27,47,168,.52) 100%),url(imagens/fachada-brasil-baterias.webp) center/cover no-repeat,var(--brand-deep);color:var(--on-brand);position:relative;overflow:hidden}
 .hero::after{content:"";position:absolute;right:-60px;top:-40px;width:420px;height:640px;background:var(--volt);opacity:.07;clip-path:polygon(58% 0,20% 52%,48% 52%,30% 100%,82% 40%,52% 40%,72% 0);pointer-events:none}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:clamp(24px,5vw,64px);padding-block:clamp(32px,6vw,72px);align-items:start;position:relative;z-index:1;grid-template-areas:"copy order" "about order";grid-template-rows:auto 1fr}
-.hero-copy{grid-area:copy}
-.hero .order{grid-area:order}
-.hero .vendedor{grid-area:vendedor}
-.hero-about{grid-area:about;display:grid;gap:12px;border-top:1px solid rgba(255,255,255,.22);padding-top:22px;margin-top:6px;align-self:start;min-width:0}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,720px);gap:clamp(24px,4vw,40px);padding-block:clamp(48px,8vw,110px);align-items:start;position:relative;z-index:1}
+.hero-about{display:grid;gap:12px;border-top:1px solid rgba(255,255,255,.22);padding-top:22px;margin-top:6px;align-self:start;min-width:0}
 .hero-about .eyebrow{color:var(--volt)}
 .hero-about h2{font-size:clamp(1.6rem,2.8vw,2.3rem);color:var(--on-brand)}
 .hero-about h2 em{font-style:normal;color:var(--volt)}
@@ -89,7 +86,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hero-lead{font-size:1.1rem;color:var(--on-brand-muted);max-width:44ch}
 .chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
 .chips li{border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:6px 14px;font-size:.9rem;font-weight:600}
-@media (max-width:900px){.hero .wrap{grid-template-columns:1fr;grid-template-areas:"copy" "order" "vendedor" "about";grid-template-rows:auto}.hero-copy{padding-top:0}.hero-about .about-btn{display:none}}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero-copy{padding-top:0}}
 
 /* Pedido (wizard) */
 .order{--surface:#FFFFFF;--surface-2:#F7F8FC;--ink:#141826;--muted:#586080;--line:#DCE1EE;--brand-ink:#1B2FA8;--warn-bg:#FFF4D6;--warn-ink:#6B4A00;--err:#C2261D;color-scheme:light;background:#FFFFFF;color:var(--ink);border-radius:20px;box-shadow:0 30px 60px -20px rgba(4,10,50,.55);overflow:hidden;min-width:0;scroll-margin-top:96px}
@@ -176,6 +173,10 @@ legend{font-size:.85rem;font-weight:700;padding:0;margin-bottom:8px}
 .final{display:grid;gap:12px;border-top:1px solid var(--line);padding-top:16px}
 .btn-big{width:100%;padding:22px 20px;font-size:clamp(1rem,4.8vw,1.3rem);letter-spacing:.04em;white-space:nowrap;box-shadow:0 10px 24px -12px color-mix(in srgb,var(--zap) 70%,transparent)}
 .on-final .fab{display:none}
+.pedido .wrap{display:grid;gap:22px;justify-items:center}
+.pedido .order{width:100%;max-width:720px;border:1px solid var(--line);box-shadow:0 24px 60px -28px rgba(11,23,101,.35)}
+.pedido .vendedor{width:100%;max-width:720px}
+.hero-cta{justify-self:start;margin-top:4px;padding:16px 28px;font-size:1rem}
 .vendedor{display:none}
 @media (max-width:900px){.fab{display:none!important}
   .vendedor{display:grid;gap:14px;text-align:center;justify-items:center}
@@ -344,8 +345,20 @@ document.addEventListener('click', function(e){
         <p class="eyebrow">A melhor loja de Marília desde 1980</p>
         <h1>A bateria do seu veículo <em>entregue e instalada</em> em até 50 minutos</h1>
         <p class="hero-lead">Informe seu carro, veja a bateria indicada e envie o pedido pelo WhatsApp. Você paga só na entrega.</p>
+        <a class="btn btn-volt hero-cta" href="#pedido">Fazer meu pedido</a>
       </div>
 
+      <div class="hero-about">
+        <p class="eyebrow">Sobre nós</p>
+        <h2>Com muito orgulho, há <em>46 anos</em> no mesmo lugar</h2>
+        <p>Proporcionando o melhor atendimento, com transparência e honestidade!</p>
+        <a class="btn btn-zap about-btn" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20um%20vendedor." target="_blank" rel="noopener">Fale com um vendedor</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band pedido">
+    <div class="wrap">
       <div class="order" id="pedido" aria-live="polite">
         <ol class="steps" id="steps">
           <li data-s="1"><span>1</span>Veículo</li>
@@ -478,13 +491,6 @@ document.addEventListener('click', function(e){
       <div class="vendedor">
         <p>Prefere falar com um vendedor? Clique no botão abaixo:</p>
         <a class="btn btn-zap" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20um%20vendedor." target="_blank" rel="noopener">Fale agora no WhatsApp</a>
-      </div>
-
-      <div class="hero-about">
-        <p class="eyebrow">Sobre nós</p>
-        <h2>Com muito orgulho, há <em>46 anos</em> no mesmo lugar</h2>
-        <p>Proporcionando o melhor atendimento, com transparência e honestidade!</p>
-        <a class="btn btn-zap about-btn" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20um%20vendedor." target="_blank" rel="noopener">Fale com um vendedor</a>
       </div>
     </div>
   </section>
