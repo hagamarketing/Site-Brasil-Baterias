@@ -70,11 +70,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 /* Hero */
 .hero{background:linear-gradient(100deg,rgba(11,23,101,.92) 0%,rgba(11,23,101,.82) 45%,rgba(27,47,168,.52) 100%),url(imagens/fachada-brasil-baterias.webp) center/cover no-repeat,var(--brand-deep);color:var(--on-brand);position:relative;overflow:hidden}
 .hero::after{content:"";position:absolute;right:-60px;top:-40px;width:420px;height:640px;background:var(--volt);opacity:.07;clip-path:polygon(58% 0,20% 52%,48% 52%,30% 100%,82% 40%,52% 40%,72% 0);pointer-events:none}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:clamp(24px,5vw,64px);padding-block:clamp(32px,6vw,72px);align-items:start;position:relative;z-index:1;grid-template-areas:"copy order" "about order";grid-template-rows:auto 1fr}
-.hero-copy{grid-area:copy}
-.hero .order{grid-area:order}
-.hero .vendedor{grid-area:vendedor}
-.hero-about{grid-area:about;display:grid;gap:12px;border-top:1px solid rgba(255,255,255,.22);padding-top:22px;margin-top:6px;align-self:start;min-width:0}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,720px);gap:clamp(24px,4vw,40px);padding-block:clamp(48px,8vw,110px);align-items:start;position:relative;z-index:1}
+.hero-about{display:grid;gap:12px;border-top:1px solid rgba(255,255,255,.22);padding-top:22px;margin-top:6px;align-self:start;min-width:0}
 .hero-about .eyebrow{color:var(--volt)}
 .hero-about h2{font-size:clamp(1.6rem,2.8vw,2.3rem);color:var(--on-brand)}
 .hero-about h2 em{font-style:normal;color:var(--volt)}
@@ -89,7 +86,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hero-lead{font-size:1.1rem;color:var(--on-brand-muted);max-width:44ch}
 .chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
 .chips li{border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:6px 14px;font-size:.9rem;font-weight:600}
-@media (max-width:900px){.hero .wrap{grid-template-columns:1fr;grid-template-areas:"copy" "order" "vendedor" "about";grid-template-rows:auto}.hero-copy{padding-top:0}.hero-about .about-btn{display:none}}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero-copy{padding-top:0}}
 
 /* Pedido (wizard) */
 .order{--surface:#FFFFFF;--surface-2:#F7F8FC;--ink:#141826;--muted:#586080;--line:#DCE1EE;--brand-ink:#1B2FA8;--warn-bg:#FFF4D6;--warn-ink:#6B4A00;--err:#C2261D;color-scheme:light;background:#FFFFFF;color:var(--ink);border-radius:20px;box-shadow:0 30px 60px -20px rgba(4,10,50,.55);overflow:hidden;min-width:0;scroll-margin-top:96px}
@@ -176,6 +173,30 @@ legend{font-size:.85rem;font-weight:700;padding:0;margin-bottom:8px}
 .final{display:grid;gap:12px;border-top:1px solid var(--line);padding-top:16px}
 .btn-big{width:100%;padding:22px 20px;font-size:clamp(1rem,4.8vw,1.3rem);letter-spacing:.04em;white-space:nowrap;box-shadow:0 10px 24px -12px color-mix(in srgb,var(--zap) 70%,transparent)}
 .on-final .fab{display:none}
+.pedido .wrap{display:grid;gap:22px;justify-items:center}
+.pedido .order{width:100%;max-width:720px;border:1px solid var(--line);box-shadow:0 24px 60px -28px rgba(11,23,101,.35)}
+.pedido .vendedor{width:100%;max-width:720px}
+.destaques .sec-head{margin-bottom:22px}
+.carrossel{position:relative}
+.trilho{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 16px;scrollbar-width:thin;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.trilho:focus-visible{outline-offset:2px}
+.dest-card{flex:0 0 min(80%,300px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff;box-shadow:0 14px 34px -26px rgba(11,23,101,.55)}
+.dest-art{position:relative;display:grid;place-items:center;height:150px;border-radius:12px;background:var(--surface-2);overflow:hidden}
+.dest-art img{width:100%;height:100%;object-fit:contain}
+.dest-art.sem-foto{font-family:var(--f-display);font-weight:900;font-stretch:80%;font-size:2.2rem;color:var(--brand-ink);letter-spacing:.02em}
+.dest-tag{position:absolute;top:10px;left:10px;font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 10px;background:var(--volt);color:var(--on-volt)}
+.dest-card h3{font-size:1.45rem}
+.dest-card h3 small{display:block;font-family:var(--f-body);font-stretch:100%;font-weight:600;font-size:.82rem;letter-spacing:0;color:var(--muted);margin-top:4px}
+.dest-info{flex:1;margin:0;padding:0;list-style:none;display:grid;align-content:start;gap:4px;color:var(--muted);font-size:.92rem}
+.dest-info b{color:var(--ink)}
+.dest-preco{font-family:var(--f-display);font-weight:800;font-size:1.35rem}
+.dest-preco small{font-family:var(--f-body);font-weight:500;font-size:.8rem;color:var(--muted)}
+.dest-card .btn{width:100%;padding:13px 14px;font-size:.85rem}
+.car-nav{display:flex;justify-content:center;gap:12px;margin-top:4px}
+.car-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--brand-ink);font-size:1.4rem;line-height:1;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 20px -10px rgba(11,23,101,.55)}
+.car-btn[disabled]{opacity:.35;cursor:default}
+@media (min-width:1000px){.dest-card{flex-basis:calc((100% - 48px)/4)}}
+.hero-cta{justify-self:start;margin-top:4px;padding:16px 28px;font-size:1rem}
 .vendedor{display:none}
 @media (max-width:900px){.fab{display:none!important}
   .vendedor{display:grid;gap:14px;text-align:center;justify-items:center}
@@ -344,8 +365,20 @@ document.addEventListener('click', function(e){
         <p class="eyebrow">A melhor loja de Marília desde 1980</p>
         <h1>A bateria do seu veículo <em>entregue e instalada</em> em até 50 minutos</h1>
         <p class="hero-lead">Informe seu carro, veja a bateria indicada e envie o pedido pelo WhatsApp. Você paga só na entrega.</p>
+        <a class="btn btn-volt hero-cta" href="#pedido">Fazer meu pedido</a>
       </div>
 
+      <div class="hero-about">
+        <p class="eyebrow">Sobre nós</p>
+        <h2>Com muito orgulho, há <em>46 anos</em> no mesmo lugar</h2>
+        <p>Proporcionando o melhor atendimento, com transparência e honestidade!</p>
+        <a class="btn btn-zap about-btn" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20um%20vendedor." target="_blank" rel="noopener">Fale com um vendedor</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band pedido">
+    <div class="wrap">
       <div class="order" id="pedido" aria-live="polite">
         <ol class="steps" id="steps">
           <li data-s="1"><span>1</span>Veículo</li>
@@ -479,12 +512,50 @@ document.addEventListener('click', function(e){
         <p>Prefere falar com um vendedor? Clique no botão abaixo:</p>
         <a class="btn btn-zap" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20um%20vendedor." target="_blank" rel="noopener">Fale agora no WhatsApp</a>
       </div>
+    </div>
+  </section>
 
-      <div class="hero-about">
-        <p class="eyebrow">Sobre nós</p>
-        <h2>Com muito orgulho, há <em>46 anos</em> no mesmo lugar</h2>
-        <p>Proporcionando o melhor atendimento, com transparência e honestidade!</p>
-        <a class="btn btn-zap about-btn" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20um%20vendedor." target="_blank" rel="noopener">Fale com um vendedor</a>
+  <section class="band destaques" id="mais-vendidas">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Mais vendidas</p>
+        <h2>As baterias que mais saem da nossa loja</h2>
+      </div>
+      <div class="carrossel">
+        <div class="trilho" id="trilho" tabindex="0" role="region" aria-label="Baterias mais vendidas">
+          <article class="dest-card" data-cod="Z60D">
+            <div class="dest-art"><img src="imagens/zetta.webp" width="768" height="595" loading="lazy" decoding="async" alt="Bateria Zetta 60 Ah"></div>
+            <h3>Zetta 60 Ah</h3>
+            <ul class="dest-info"><li><b>60 Ah</b> de capacidade</li><li><b>18 meses</b> de garantia</li></ul>
+            <p class="dest-preco"></p>
+            <a class="btn btn-zap" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20tenho%20interesse%20na%20bateria%20Zetta%2060%20Ah." target="_blank" rel="noopener">Quero esta bateria</a>
+          </article>
+          <article class="dest-card" data-cod="M60GD">
+            <div class="dest-art"><img src="imagens/moura.webp" width="768" height="595" loading="lazy" decoding="async" alt="Bateria Moura 60 Ah"></div>
+            <h3>Moura 60 Ah</h3>
+            <ul class="dest-info"><li><b>60 Ah</b> de capacidade</li><li><b>24 meses</b> de garantia</li></ul>
+            <p class="dest-preco"></p>
+            <a class="btn btn-zap" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20tenho%20interesse%20na%20bateria%20Moura%2060%20Ah." target="_blank" rel="noopener">Quero esta bateria</a>
+          </article>
+          <article class="dest-card">
+            <div class="dest-art sem-foto" aria-hidden="true">Heliar</div>
+            <h3>Heliar 60 Ah</h3>
+            <ul class="dest-info"><li><b>60 Ah</b> de capacidade</li><li>Garantia: <b>consulte</b></li></ul>
+            <p class="dest-preco"><small>Preço confirmado pelo WhatsApp</small></p>
+            <a class="btn btn-zap" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20tenho%20interesse%20na%20bateria%20Heliar%2060%20Ah." target="_blank" rel="noopener">Quero esta bateria</a>
+          </article>
+          <article class="dest-card" data-cod="MF72LD">
+            <div class="dest-art"><img src="imagens/moura.webp" width="768" height="595" loading="lazy" decoding="async" alt="Bateria Moura 72 Ah EFB Start-Stop"><span class="dest-tag">EFB &middot; Start-Stop</span></div>
+            <h3>Moura 72 Ah<small>Modelo EFB Start-Stop</small></h3>
+            <ul class="dest-info"><li><b>72 Ah</b> de capacidade</li><li><b>24 meses</b> de garantia</li></ul>
+            <p class="dest-preco"></p>
+            <a class="btn btn-zap" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20tenho%20interesse%20na%20bateria%20Moura%2072%20Ah%20EFB%20Start-Stop." target="_blank" rel="noopener">Quero esta bateria</a>
+          </article>
+        </div>
+        <div class="car-nav" hidden>
+          <button type="button" class="car-btn car-prev" aria-label="Ver baterias anteriores">&#8249;</button>
+          <button type="button" class="car-btn car-next" aria-label="Ver mais baterias">&#8250;</button>
+        </div>
       </div>
     </div>
   </section>
@@ -522,7 +593,7 @@ document.addEventListener('click', function(e){
       </div>
       <div class="faq">
         <details><summary>Não encontrei a bateria do meu veículo. O que faço?</summary><p>Confira a grafia do modelo ou busque só pela montadora. Se ainda assim não aparecer, fale com a gente pelo WhatsApp ou pelo (14) 3433-0722 e indicamos a bateria certa.</p></details>
-        <details><summary>E se o problema não for a bateria?</summary><p>Fazemos um teste gratuito na sua bateria antes da troca. Se o técnico identificar que o defeito não é a bateria, pode haver cobrança pelo atendimento.</p></details>
+        <details><summary>E se o problema não for a bateria?</summary><p>Realizamos um teste na sua bateria antes da troca. Se o técnico identificar que o defeito não é a bateria, pode haver cobrança pelo atendimento.</p></details>
         <details><summary>O que significa "valor à base de troca"?</summary><p>O preço considera a entrega da sua bateria usada no momento da instalação. Pela Lei nº 12.305/2010, a devolução da bateria inservível é obrigatória, e nós cuidamos do descarte correto.</p></details>
         <details><summary>Como faço o pagamento?</summary><p>O pagamento é feito na entrega, depois da instalação. Aceitamos Pix, cartão de crédito, cartão de débito e dinheiro.</p></details>
         <details><summary>Qual é o horário de atendimento?</summary><p>Segunda a sexta, das 8h às 18h. Sábado, das 8h às 13h.</p></details>
@@ -877,6 +948,28 @@ document.addEventListener('click', function(e){
   /* dados ficam só enquanto a aba está aberta; ao fechar o site, somem (e apaga o que versões antigas guardaram) */
   try { localStorage.removeItem('bb-cliente'); } catch(e){}
   try { var saved = JSON.parse(sessionStorage.getItem('bb-cliente') || 'null'); if (saved) { DRAFT.forEach(function(k){ if (saved[k]) $(k).value = saved[k]; }); if (saved.rua) mostrarEndereco(); } } catch(e){}
+
+  /* ===== Baterias mais vendidas (carrossel) ===== */
+  document.querySelectorAll('.dest-card[data-cod]').forEach(function(c){
+    var p = PRECOS[c.dataset.cod], el = c.querySelector('.dest-preco');
+    el.innerHTML = p ? brl(p) + ' <small>à base de troca</small>' : '<small>Preço confirmado pelo WhatsApp</small>';
+  });
+  (function(){
+    var trilho = $('trilho'), nav = document.querySelector('.car-nav'), prev = document.querySelector('.car-prev'), next = document.querySelector('.car-next');
+    var calmo = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function passo(){ var c = trilho.querySelector('.dest-card'); return c ? c.offsetWidth + 16 : 300; }
+    function atualiza(){
+      var sobra = trilho.scrollWidth - trilho.clientWidth > 4;
+      nav.hidden = !sobra;
+      prev.disabled = trilho.scrollLeft <= 4;
+      next.disabled = trilho.scrollLeft >= trilho.scrollWidth - trilho.clientWidth - 4;
+    }
+    prev.addEventListener('click', function(){ trilho.scrollBy({left:-passo(), behavior: calmo ? 'auto' : 'smooth'}); });
+    next.addEventListener('click', function(){ trilho.scrollBy({left:passo(), behavior: calmo ? 'auto' : 'smooth'}); });
+    trilho.addEventListener('scroll', atualiza, {passive:true});
+    window.addEventListener('resize', atualiza);
+    atualiza();
+  })();
 
   search();
   $('p1').hidden = false; document.querySelector('#steps li').className = 'on';
