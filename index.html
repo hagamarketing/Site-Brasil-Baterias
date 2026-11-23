@@ -176,6 +176,26 @@ legend{font-size:.85rem;font-weight:700;padding:0;margin-bottom:8px}
 .pedido .wrap{display:grid;gap:22px;justify-items:center}
 .pedido .order{width:100%;max-width:720px;border:1px solid var(--line);box-shadow:0 24px 60px -28px rgba(11,23,101,.35)}
 .pedido .vendedor{width:100%;max-width:720px}
+.destaques .sec-head{margin-bottom:22px}
+.carrossel{position:relative}
+.trilho{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 16px;scrollbar-width:thin;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.trilho:focus-visible{outline-offset:2px}
+.dest-card{flex:0 0 min(80%,300px);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff;box-shadow:0 14px 34px -26px rgba(11,23,101,.55)}
+.dest-art{position:relative;display:grid;place-items:center;height:150px;border-radius:12px;background:var(--surface-2);overflow:hidden}
+.dest-art img{width:100%;height:100%;object-fit:contain}
+.dest-art.sem-foto{font-family:var(--f-display);font-weight:900;font-stretch:80%;font-size:2.2rem;color:var(--brand-ink);letter-spacing:.02em}
+.dest-tag{position:absolute;top:10px;left:10px;font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 10px;background:var(--volt);color:var(--on-volt)}
+.dest-card h3{font-size:1.45rem}
+.dest-card h3 small{display:block;font-family:var(--f-body);font-stretch:100%;font-weight:600;font-size:.82rem;letter-spacing:0;color:var(--muted);margin-top:4px}
+.dest-info{flex:1;margin:0;padding:0;list-style:none;display:grid;align-content:start;gap:4px;color:var(--muted);font-size:.92rem}
+.dest-info b{color:var(--ink)}
+.dest-preco{font-family:var(--f-display);font-weight:800;font-size:1.35rem}
+.dest-preco small{font-family:var(--f-body);font-weight:500;font-size:.8rem;color:var(--muted)}
+.dest-card .btn{width:100%;padding:13px 14px;font-size:.85rem}
+.car-nav{display:flex;justify-content:center;gap:12px;margin-top:4px}
+.car-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--brand-ink);font-size:1.4rem;line-height:1;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 20px -10px rgba(11,23,101,.55)}
+.car-btn[disabled]{opacity:.35;cursor:default}
+@media (min-width:1000px){.dest-card{flex-basis:calc((100% - 48px)/4)}}
 .hero-cta{justify-self:start;margin-top:4px;padding:16px 28px;font-size:1rem}
 .vendedor{display:none}
 @media (max-width:900px){.fab{display:none!important}
@@ -491,6 +511,51 @@ document.addEventListener('click', function(e){
       <div class="vendedor">
         <p>Prefere falar com um vendedor? Clique no botão abaixo:</p>
         <a class="btn btn-zap" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20um%20vendedor." target="_blank" rel="noopener">Fale agora no WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band destaques" id="mais-vendidas">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Mais vendidas</p>
+        <h2>As baterias que mais saem da nossa loja</h2>
+      </div>
+      <div class="carrossel">
+        <div class="trilho" id="trilho" tabindex="0" role="region" aria-label="Baterias mais vendidas">
+          <article class="dest-card" data-cod="Z60D">
+            <div class="dest-art"><img src="imagens/zetta.webp" width="768" height="595" loading="lazy" decoding="async" alt="Bateria Zetta 60 Ah"></div>
+            <h3>Zetta 60 Ah</h3>
+            <ul class="dest-info"><li><b>60 Ah</b> de capacidade</li><li><b>18 meses</b> de garantia</li></ul>
+            <p class="dest-preco"></p>
+            <a class="btn btn-zap" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20tenho%20interesse%20na%20bateria%20Zetta%2060%20Ah." target="_blank" rel="noopener">Quero esta bateria</a>
+          </article>
+          <article class="dest-card" data-cod="M60GD">
+            <div class="dest-art"><img src="imagens/moura.webp" width="768" height="595" loading="lazy" decoding="async" alt="Bateria Moura 60 Ah"></div>
+            <h3>Moura 60 Ah</h3>
+            <ul class="dest-info"><li><b>60 Ah</b> de capacidade</li><li><b>24 meses</b> de garantia</li></ul>
+            <p class="dest-preco"></p>
+            <a class="btn btn-zap" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20tenho%20interesse%20na%20bateria%20Moura%2060%20Ah." target="_blank" rel="noopener">Quero esta bateria</a>
+          </article>
+          <article class="dest-card">
+            <div class="dest-art sem-foto" aria-hidden="true">Heliar</div>
+            <h3>Heliar 60 Ah</h3>
+            <ul class="dest-info"><li><b>60 Ah</b> de capacidade</li><li>Garantia: <b>consulte</b></li></ul>
+            <p class="dest-preco"><small>Preço confirmado pelo WhatsApp</small></p>
+            <a class="btn btn-zap" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20tenho%20interesse%20na%20bateria%20Heliar%2060%20Ah." target="_blank" rel="noopener">Quero esta bateria</a>
+          </article>
+          <article class="dest-card" data-cod="MF72LD">
+            <div class="dest-art"><img src="imagens/moura.webp" width="768" height="595" loading="lazy" decoding="async" alt="Bateria Moura 72 Ah EFB Start-Stop"><span class="dest-tag">EFB &middot; Start-Stop</span></div>
+            <h3>Moura 72 Ah<small>Modelo EFB Start-Stop</small></h3>
+            <ul class="dest-info"><li><b>72 Ah</b> de capacidade</li><li><b>24 meses</b> de garantia</li></ul>
+            <p class="dest-preco"></p>
+            <a class="btn btn-zap" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20tenho%20interesse%20na%20bateria%20Moura%2072%20Ah%20EFB%20Start-Stop." target="_blank" rel="noopener">Quero esta bateria</a>
+          </article>
+        </div>
+        <div class="car-nav" hidden>
+          <button type="button" class="car-btn car-prev" aria-label="Ver baterias anteriores">&#8249;</button>
+          <button type="button" class="car-btn car-next" aria-label="Ver mais baterias">&#8250;</button>
+        </div>
       </div>
     </div>
   </section>
@@ -883,6 +948,28 @@ document.addEventListener('click', function(e){
   /* dados ficam só enquanto a aba está aberta; ao fechar o site, somem (e apaga o que versões antigas guardaram) */
   try { localStorage.removeItem('bb-cliente'); } catch(e){}
   try { var saved = JSON.parse(sessionStorage.getItem('bb-cliente') || 'null'); if (saved) { DRAFT.forEach(function(k){ if (saved[k]) $(k).value = saved[k]; }); if (saved.rua) mostrarEndereco(); } } catch(e){}
+
+  /* ===== Baterias mais vendidas (carrossel) ===== */
+  document.querySelectorAll('.dest-card[data-cod]').forEach(function(c){
+    var p = PRECOS[c.dataset.cod], el = c.querySelector('.dest-preco');
+    el.innerHTML = p ? brl(p) + ' <small>à base de troca</small>' : '<small>Preço confirmado pelo WhatsApp</small>';
+  });
+  (function(){
+    var trilho = $('trilho'), nav = document.querySelector('.car-nav'), prev = document.querySelector('.car-prev'), next = document.querySelector('.car-next');
+    var calmo = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function passo(){ var c = trilho.querySelector('.dest-card'); return c ? c.offsetWidth + 16 : 300; }
+    function atualiza(){
+      var sobra = trilho.scrollWidth - trilho.clientWidth > 4;
+      nav.hidden = !sobra;
+      prev.disabled = trilho.scrollLeft <= 4;
+      next.disabled = trilho.scrollLeft >= trilho.scrollWidth - trilho.clientWidth - 4;
+    }
+    prev.addEventListener('click', function(){ trilho.scrollBy({left:-passo(), behavior: calmo ? 'auto' : 'smooth'}); });
+    next.addEventListener('click', function(){ trilho.scrollBy({left:passo(), behavior: calmo ? 'auto' : 'smooth'}); });
+    trilho.addEventListener('scroll', atualiza, {passive:true});
+    window.addEventListener('resize', atualiza);
+    atualiza();
+  })();
 
   search();
   $('p1').hidden = false; document.querySelector('#steps li').className = 'on';
