@@ -68,9 +68,18 @@ button,input,select,textarea{font:inherit;color:inherit}
 @media (max-width:640px){.top-phone{display:none}.logo{height:36px}.top .logo{height:50px}}
 
 /* Hero */
-.hero{background:radial-gradient(120% 90% at 0% 0%,#2B45D6 0%,var(--brand) 38%,var(--brand-deep) 100%);color:var(--on-brand);position:relative;overflow:hidden}
+.hero{background:linear-gradient(100deg,rgba(11,23,101,.92) 0%,rgba(11,23,101,.82) 45%,rgba(27,47,168,.52) 100%),url(imagens/fachada-brasil-baterias.webp) center/cover no-repeat,var(--brand-deep);color:var(--on-brand);position:relative;overflow:hidden}
 .hero::after{content:"";position:absolute;right:-60px;top:-40px;width:420px;height:640px;background:var(--volt);opacity:.07;clip-path:polygon(58% 0,20% 52%,48% 52%,30% 100%,82% 40%,52% 40%,72% 0);pointer-events:none}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:clamp(24px,5vw,64px);padding-block:clamp(32px,6vw,72px);align-items:start;position:relative;z-index:1}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:clamp(24px,5vw,64px);padding-block:clamp(32px,6vw,72px);align-items:start;position:relative;z-index:1;grid-template-areas:"copy order" "about order";grid-template-rows:auto 1fr}
+.hero-copy{grid-area:copy}
+.hero .order{grid-area:order}
+.hero .vendedor{grid-area:vendedor}
+.hero-about{grid-area:about;display:grid;gap:12px;border-top:1px solid rgba(255,255,255,.22);padding-top:22px;margin-top:6px;align-self:start;min-width:0}
+.hero-about .eyebrow{color:var(--volt)}
+.hero-about h2{font-size:clamp(1.6rem,2.8vw,2.3rem);color:var(--on-brand)}
+.hero-about h2 em{font-style:normal;color:var(--volt)}
+.hero-about p{color:var(--on-brand-muted);font-size:1.05rem;max-width:44ch}
+.hero-about .about-btn{justify-self:start;margin-top:6px}
 .hero-copy{display:grid;gap:22px;padding-top:8px;min-width:0}
 .hero-copy .eyebrow{color:var(--volt)}
 .hero h1{font-size:clamp(2.4rem,5.6vw,4.4rem)}
@@ -80,7 +89,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hero-lead{font-size:1.1rem;color:var(--on-brand-muted);max-width:44ch}
 .chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
 .chips li{border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:6px 14px;font-size:.9rem;font-weight:600}
-@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero-copy{padding-top:0}}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr;grid-template-areas:"copy" "order" "vendedor" "about";grid-template-rows:auto}.hero-copy{padding-top:0}.hero-about .about-btn{display:none}}
 
 /* Pedido (wizard) */
 .order{--surface:#FFFFFF;--surface-2:#F7F8FC;--ink:#141826;--muted:#586080;--line:#DCE1EE;--brand-ink:#1B2FA8;--warn-bg:#FFF4D6;--warn-ink:#6B4A00;--err:#C2261D;color-scheme:light;background:#FFFFFF;color:var(--ink);border-radius:20px;box-shadow:0 30px 60px -20px rgba(4,10,50,.55);overflow:hidden;min-width:0;scroll-margin-top:96px}
@@ -186,16 +195,6 @@ legend{font-size:.85rem;font-weight:700;padding:0;margin-bottom:8px}
 /* Seções */
 section.band{--bg:#F2F4FA;--surface:#FFFFFF;--surface-2:#F7F8FC;--ink:#141826;--muted:#586080;--line:#DCE1EE;--brand-ink:#1B2FA8;color-scheme:light;background:#FFFFFF;color:var(--ink);padding-block:clamp(48px,7vw,88px)}
 /* Sobre nós */
-.about{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,5vw,56px);align-items:center}
-.about-photo{margin:0;border-radius:20px;overflow:hidden;box-shadow:0 24px 50px -24px rgba(4,10,50,.5);background:var(--surface-2)}
-.about-photo img{display:block;width:100%;height:auto;aspect-ratio:1024/620;object-fit:cover}
-.about-copy{display:grid;gap:14px}
-.about-copy h2{font-size:clamp(1.9rem,4vw,2.8rem)}
-.about-copy h2 em{font-style:normal;color:var(--brand-ink)}
-.about-copy p{color:var(--muted);font-size:1.05rem}
-.about-btn{justify-self:start;margin-top:6px}
-.about-copy .eyebrow{color:var(--brand-ink)}
-@media (max-width:820px){.about{grid-template-columns:1fr}}
 
 .sec-head{display:grid;gap:10px;margin-bottom:32px;max-width:60ch}
 .sec-head .eyebrow{color:var(--brand-ink)}
@@ -480,6 +479,13 @@ document.addEventListener('click', function(e){
         <p>Prefere falar com um vendedor? Clique no botão abaixo:</p>
         <a class="btn btn-zap" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20um%20vendedor." target="_blank" rel="noopener">Fale agora no WhatsApp</a>
       </div>
+
+      <div class="hero-about">
+        <p class="eyebrow">Sobre nós</p>
+        <h2>Com muito orgulho, há <em>46 anos</em> no mesmo lugar</h2>
+        <p>Proporcionando o melhor atendimento, com transparência e honestidade!</p>
+        <a class="btn btn-zap about-btn" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20um%20vendedor." target="_blank" rel="noopener">Fale com um vendedor</a>
+      </div>
     </div>
   </section>
 
@@ -520,19 +526,6 @@ document.addEventListener('click', function(e){
         <details><summary>O que significa "valor à base de troca"?</summary><p>O preço considera a entrega da sua bateria usada no momento da instalação. Pela Lei nº 12.305/2010, a devolução da bateria inservível é obrigatória, e nós cuidamos do descarte correto.</p></details>
         <details><summary>Como faço o pagamento?</summary><p>O pagamento é feito na entrega, depois da instalação. Aceitamos Pix, cartão de crédito, cartão de débito e dinheiro.</p></details>
         <details><summary>Qual é o horário de atendimento?</summary><p>Segunda a sexta, das 8h às 18h. Sábado, das 8h às 13h.</p></details>
-      </div>
-    </div>
-  </section>
-  <section class="band alt-bg" id="sobre-nos">
-    <div class="wrap about">
-      <figure class="about-photo">
-        <img src="imagens/fachada-brasil-baterias.webp" width="1024" height="620" loading="lazy" decoding="async" alt="Fachada da loja Brasil Baterias, com painéis azul e amarelo da Moura, na Av. Pedro de Toledo, 1894, no Palmital, em Marília">
-      </figure>
-      <div class="about-copy">
-        <p class="eyebrow">Sobre nós</p>
-        <h2>Com muito orgulho, há <em>46 anos</em> no mesmo lugar</h2>
-        <p>Proporcionando o melhor atendimento, com transparência e honestidade!</p>
-        <a class="btn btn-zap about-btn" href="https://wa.me/551434330722?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20gostaria%20de%20falar%20com%20um%20vendedor." target="_blank" rel="noopener">Fale com um vendedor</a>
       </div>
     </div>
   </section>
