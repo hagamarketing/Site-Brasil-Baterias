@@ -12,7 +12,7 @@ import { linkWhatsApp } from '@/data/site';
       <div class="trilho" id="trilho" tabindex="0" role="region" aria-label="Baterias mais vendidas">
         {
           destaques.map((d, i) => {
-            const preco = d.cod ? PRECOS[d.cod] : undefined;
+            const preco = d.preco ?? (d.cod ? PRECOS[d.cod] : undefined);
             return (
               <article class="dest-card card" data-reveal style={`--i:${i}`}>
                 {d.imagem ? (
