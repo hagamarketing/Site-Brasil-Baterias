@@ -18,8 +18,10 @@ export const PRECOS: Record<string, number> = {
 export const brl = (n: number): string => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 export interface Destaque {
-  /** Código usado para buscar o preço; sem código, o preço é "sob consulta". */
+  /** Código usado para buscar o preço em PRECOS. */
   cod?: string;
+  /** Preço próprio do card, para baterias que não estão no catálogo de veículos (ex.: Heliar). */
+  preco?: number;
   marca: 'Moura' | 'Zetta' | 'Heliar';
   titulo: string;
   subtitulo?: string;
@@ -53,6 +55,8 @@ export const destaques: Destaque[] = [
     marca: 'Heliar',
     titulo: 'Heliar 60 Ah',
     capacidade: '60 Ah',
+    garantia: '24 meses',
+    preco: 470,
     imagem: '/imagens/heliar.webp',
     mensagem: 'Olá, vim pelo site e tenho interesse na bateria Heliar 60 Ah.',
   },
