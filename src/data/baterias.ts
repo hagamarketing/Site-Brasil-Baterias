@@ -53,6 +53,7 @@ export const destaques: Destaque[] = [
     marca: 'Heliar',
     titulo: 'Heliar 60 Ah',
     capacidade: '60 Ah',
+    imagem: '/imagens/heliar.webp',
     mensagem: 'Olá, vim pelo site e tenho interesse na bateria Heliar 60 Ah.',
   },
   {
