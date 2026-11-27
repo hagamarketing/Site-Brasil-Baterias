@@ -1,0 +1,1 @@
+import{t as e}from"./near.BUQ3ENI-.js";import{n as t}from"./lifecycle.DtPJHpML.js";import{t as n}from"./preload-helper.DygEbaNj.js";t(()=>{let t=document.getElementById(`pedido`);if(!t)return;let r=()=>void n(()=>import(`./pedido.DdeImr-o.js`).then(e=>e.initPedido()),[]);e(t,r,`1200px 0px`),t.addEventListener(`focusin`,r,{once:!0}),t.addEventListener(`pointerdown`,r,{once:!0})});

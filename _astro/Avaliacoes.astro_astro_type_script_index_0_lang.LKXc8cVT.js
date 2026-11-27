@@ -1,0 +1,1 @@
+import{n as e}from"./lifecycle.DtPJHpML.js";import{t}from"./near.BUQ3ENI-.js";e(()=>{let e=document.getElementById(`avaliacoes`);e&&t(e,()=>{if(document.querySelector(`script[data-commonninja]`))return;let e=document.createElement(`script`);e.src=`https://cdn.commoninja.com/sdk/latest/commonninja.js`,e.defer=!0,e.dataset.commonninja=``,document.head.append(e)},`600px 0px`)});

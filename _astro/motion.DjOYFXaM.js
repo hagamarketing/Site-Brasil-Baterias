@@ -1,0 +1,1 @@
+var e=()=>window.matchMedia(`(prefers-reduced-motion: reduce)`).matches,t=()=>window.matchMedia(`(hover: hover) and (pointer: fine) and (min-width: 64rem)`).matches;export{e as n,t};

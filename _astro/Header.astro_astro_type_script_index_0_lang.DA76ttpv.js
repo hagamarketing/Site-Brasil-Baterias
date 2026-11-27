@@ -1,0 +1,1 @@
+import{n as e}from"./lifecycle.DtPJHpML.js";e(()=>{let e=document.getElementById(`menu-mobile`);e?.querySelectorAll(`[data-close-menu]`).forEach(t=>{t.addEventListener(`click`,()=>e.hidePopover())})});

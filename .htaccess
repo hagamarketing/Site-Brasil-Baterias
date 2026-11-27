@@ -1,0 +1,47 @@
+# Gerado automaticamente no build (integrations/hostinger.ts). Não edite no servidor.
+Options -MultiViews -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
+AddType image/avif .avif
+AddType application/manifest+json .webmanifest
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Forçar HTTPS (ative o SSL no hPanel antes)
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+RewriteRule ^ https://abrasilbaterias.com%{REQUEST_URI} [R=301,L]
+
+# www.abrasilbaterias.com → abrasilbaterias.com
+RewriteCond %{HTTP_HOST} ^www\.abrasilbaterias\.com$ [NC]
+RewriteRule ^ https://abrasilbaterias.com%{REQUEST_URI} [R=301,L]
+
+# Páginas sem ".html": /privacidade → privacidade.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^(.+?)/?$ $1.html [L]
+</IfModule>
+
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/png "access plus 30 days"
+ExpiresByType image/webp "access plus 30 days"
+ExpiresByType image/avif "access plus 30 days"
+</IfModule>
+
+<IfModule mod_headers.c>
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+<FilesMatch "\.html$">
+Header set Cache-Control "public, max-age=0, must-revalidate"
+</FilesMatch>
+</IfModule>

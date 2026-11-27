@@ -1,0 +1,1 @@
+import{t as e}from"./lifecycle.DtPJHpML.js";function t(t,n,r=`400px 0px`){let i=new IntersectionObserver(e=>{e.some(e=>e.isIntersecting)&&(i.disconnect(),n())},{rootMargin:r});i.observe(t),e(()=>i.disconnect())}export{t};

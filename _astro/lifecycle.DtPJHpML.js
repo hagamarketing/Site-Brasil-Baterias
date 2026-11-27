@@ -1,0 +1,1 @@
+var e=[];function t(t){e.push(t)}function n(e){let t=()=>void e();document.readyState===`loading`?document.addEventListener(`DOMContentLoaded`,t,{once:!0}):t()}addEventListener(`pagehide`,()=>{for(;e.length;)try{e.pop()?.()}catch{}});export{n,t};
