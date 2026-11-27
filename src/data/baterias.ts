@@ -67,7 +67,7 @@ export const destaques: Destaque[] = [
     subtitulo: 'Modelo EFB Start-Stop',
     capacidade: '72 Ah',
     garantia: '24 meses',
-    imagem: '/imagens/moura.webp',
+    imagem: '/imagens/moura-efb.webp',
     etiqueta: 'EFB · Start-Stop',
     mensagem: 'Olá, vim pelo site e tenho interesse na bateria Moura 72 Ah EFB Start-Stop.',
   },
